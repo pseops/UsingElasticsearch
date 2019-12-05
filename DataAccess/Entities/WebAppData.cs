@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Entities
 {
+    [Table("SCP_Web_App_Data")]
     public class WebAppData
     {
         [Column("rec_id")]
@@ -145,79 +146,79 @@ namespace DataAccess.Entities
         public decimal? SatSellingPriceChange { get; set; }
         [Column("sat_price_change_status")]
         public short? SatPriceChangeStatus { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> sat_booked_units_total { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> sat_booked_units_variance_yoy { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> sat_booked_units_yoy_abv_variance { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> sat_current_units_available { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> sat_last_price_change { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> sat_days_since_last_change { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> sat_bookings_since_last_change { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> sat_minimum_price { get; set; }
-        [Column("rec_id")]
-        public string sat_updated_by { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_rack_rate { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_current_fit_price { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_current_standard_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_current_enhanced_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_current_campaign_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_current_additional_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_current_selling_price { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_recommended_fit_price { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_new_fit_price { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_recommended_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_new_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_new_enhanced_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_new_campaign_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_new_additional_discount { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_recommended_selling_price { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_new_selling_price { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_selling_price_change { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> mon_price_change_status { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> mon_booked_units_total { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> mon_booked_units_variance_yoy { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_booked_units_yoy_abv_variance { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> mon_current_units_available { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_last_price_change { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> mon_days_since_last_change { get; set; }
-        [Column("rec_id")]
-        public Nullable<int> mon_bookings_since_last_change { get; set; }
-        [Column("rec_id")]
-        public Nullable<decimal> mon_minimum_price { get; set; }
-        [Column("rec_id")]
-        public string mon_updated_by { get; set; }
-        [Column("rec_id")]
-        public bool all_not_aproved { get; set; }
+        [Column("sat_booked_units_total")]
+        public int? SatBookedUnitsTotal { get; set; }
+        [Column("sat_booked_units_variance_yoy")]
+        public int? SatBookedUnitsVarianceYoy { get; set; }
+        [Column("sat_booked_units_yoy_abv_variance")]
+        public decimal? SatBookedUnitsYoyAbvVariance { get; set; }
+        [Column("sat_current_units_available")]
+        public int? SatCurrentUnitsAvailable { get; set; }
+        [Column("sat_last_price_change")]
+        public decimal? SatLastPriceChange { get; set; }
+        [Column("sat_days_since_last_change")]
+        public int? SatDaysSinceLastChange { get; set; }
+        [Column("sat_bookings_since_last_change")]
+        public int? SatBookingsSinceLastChange { get; set; }
+        [Column("sat_minimum_price")]
+        public decimal? SatMinimumPrice { get; set; }
+        [Column("sat_updated_by")]
+        public string SatUpdatedBy { get; set; }
+        [Column("mon_rack_rate")]
+        public decimal? MonRackRate { get; set; }
+        [Column("mon_current_fit_price")]
+        public decimal? MonCurrentFitPrice { get; set; }
+        [Column("mon_current_standard_discount")]
+        public decimal? MonCurrentStandardDiscount { get; set; }
+        [Column("mon_current_enhanced_discount")]
+        public decimal? MonCurrentEnhancedDiscount { get; set; }
+        [Column("mon_current_campaign_discount")]
+        public decimal? MonCurrentCampaignDiscount { get; set; }
+        [Column("mon_current_additional_discount")]
+        public decimal? MonCurrentAdditionalDiscount { get; set; }
+        [Column("mon_current_selling_price")]
+        public decimal? MonCurrentSellingPrice { get; set; }
+        [Column("mon_recommended_fit_price")]
+        public decimal? MonRecommendedFitPrice { get; set; }
+        [Column("mon_new_fit_price")]
+        public decimal? MonNewFitPrice { get; set; }
+        [Column("mon_recommended_discount")]
+        public decimal? MonRecommendedDiscount { get; set; }
+        [Column("mon_new_discount")]
+        public decimal? MonNewDiscount { get; set; }
+        [Column("mon_new_enhanced_discount")]
+        public decimal? MonNewEnhancedDiscount { get; set; }
+        [Column("mon_new_campaign_discount")]
+        public decimal? MonNewCampaignDiscount { get; set; }
+        [Column("mon_new_additional_discount")]
+        public decimal? MonNewAdditionalDiscount { get; set; }
+        [Column("mon_recommended_selling_price")]
+        public decimal? MonRecommendedSellingPrice { get; set; }
+        [Column("mon_new_selling_price")]
+        public decimal? MonNewSellingPrice { get; set; }
+        [Column("mon_selling_price_change")]
+        public decimal? MonSellingPriceChange { get; set; }
+        [Column("mon_price_change_status")]
+        public int? MonPriceChangeStatus { get; set; }
+        [Column("mon_booked_units_total")]
+        public int? MonBookedUnitsTotal { get; set; }
+        [Column("mon_booked_units_variance_yoy")]
+        public int? MonBookedUnitsVarianceYoy { get; set; }
+        [Column("mon_booked_units_yoy_abv_variance")]
+        public decimal? MonBookedUnitsYoyAbvVariance { get; set; }
+        [Column("mon_current_units_available")]
+        public int? MonCurrentUnitsAvailable { get; set; }
+        [Column("mon_last_price_change")]
+        public decimal? MonLastPriceChange { get; set; }
+        [Column("mon_days_since_last_change")]
+        public int? MonDaysSinceLastChange { get; set; }
+        [Column("mon_bookings_since_last_change")]
+        public int? MonBookingsSinceLastChange { get; set; }
+        [Column("mon_minimum_price")]
+        public decimal? MonMinimumPrice { get; set; }
+        [Column("mon_updated_by")]
+        public string MonUpdatedBy { get; set; }
+        [Column("all_not_aproved")]
+        public bool AllNotAproved { get; set; }
     }
 }
