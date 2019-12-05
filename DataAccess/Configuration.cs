@@ -13,11 +13,11 @@ namespace DataAccess
     {
         public static void Add(IServiceCollection services, string connectionString)
         {
-            AddDependecies(services, connectionString);
+            AddDependecies(services);
             SQlMapper();
         }
 
-        public static void AddDependecies(IServiceCollection services, string connectionString)
+        public static void AddDependecies(IServiceCollection services)
         {
             services.AddTransient<IWebAppDataRepository, WebAppDataRepository>();
         }

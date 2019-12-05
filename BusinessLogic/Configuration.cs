@@ -1,9 +1,6 @@
 ﻿using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLogic
 {
@@ -11,12 +8,13 @@ namespace BusinessLogic
     {
         public static void Add(IServiceCollection services, string connectionString)
         {
-            AddDependecies(services, connectionString);
+            AddDependecies(services);
+            DataAccess.Configuration.Add(services, connectionString);
         }
 
-        public static void AddDependecies(IServiceCollection services, string connectionString)
+        public static void AddDependecies(IServiceCollection services)
         {
             services.AddTransient<IWebAppDataService, WebAppDataService>();
-        }
+        }        
     }
 }

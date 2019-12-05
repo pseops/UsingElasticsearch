@@ -10,17 +10,18 @@ namespace Presentation
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            DataAccess.Configuration.Add(services, connectionString);
-            BusinessLogic.Configuration.Add(services, connectionString);
+
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+            Configuration.Add(services, connectionString);
 
         }
 
@@ -34,7 +35,12 @@ namespace Presentation
             {
                 app.UseHsts();
             }
+            app.UseSwagger();
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "post API V1");
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }
