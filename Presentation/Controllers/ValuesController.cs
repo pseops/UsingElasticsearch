@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -10,6 +9,18 @@ namespace Presentation.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IWebAppDataService _dataService;
+
+        public ValuesController(IWebAppDataService dataService)
+        {
+            _dataService = dataService;
+        }
+        [HttpGet("getdata")]
+        public async Task<IActionResult> GetData()
+        {
+            var result = await _dataService.GetAll();
+            return Ok(result);
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

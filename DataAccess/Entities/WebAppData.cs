@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Entities
 {
-    [Table("SCP_Web_App_Data")]
+    [Table("SKP_Web_App_Data")]
     public class WebAppData
     {
         [Column("rec_id")]
