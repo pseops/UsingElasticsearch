@@ -10,30 +10,39 @@ namespace Presentation.Controllers
     public class DataController : ControllerBase
     {
         private readonly IWebAppDataService _webAppDataService;
+        private readonly IElasticsearchService _elasticsearchService;
 
-        public DataController(IWebAppDataService webAppDataService)
+        public DataController(IWebAppDataService webAppDataService, IElasticsearchService elasticsearchService)
         {
             _webAppDataService = webAppDataService;
+            _elasticsearchService = elasticsearchService;
         }
 
         [HttpGet("getdata")]
         public async Task<IActionResult> GetData()
         {
-            var result = await _webAppDataService.IndexData();
-            return Ok(result.Errors);
+            var result = await _elasticsearchService.IndexData();
+            return Ok(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _webAppDataService.SearchData();
+            var result = await _elasticsearchService.ElasticSearch();
             return Ok(result);
         }
 
         [HttpGet("termsearch")]
         public async Task<IActionResult> TermSearch()
         {
-            var result = await _webAppDataService.TermSearchData();
+            var result = await _elasticsearchService.ElasticSearchTerm();
+            return Ok(result);
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            var result = await _elasticsearchService.GetPartsRecords();
             return Ok(result);
         }
 

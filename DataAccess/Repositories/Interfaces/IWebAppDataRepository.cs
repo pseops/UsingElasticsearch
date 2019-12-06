@@ -8,8 +8,6 @@ namespace DataAccess.Repositories.Interfaces
     public interface IWebAppDataRepository
     {
         Task<IEnumerable<WebAppData>> GetAllAsync();
-        Task<BulkResponse> ElasticIndexData(IEnumerable<WebAppData> data);
-        Task<List<WebAppData>> ElasticSearch();
-        Task<List<WebAppData>> ElasticSearchTerm();
+        Task<IEnumerable<WebAppData>> GetPartsRecords(int skip, int take);
     }
 }

@@ -1,14 +1,12 @@
 ﻿using Dapper;
 using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
-using Elasticsearch.Net;
 using Microsoft.Extensions.Configuration;
-using Nest;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -42,63 +40,24 @@ namespace DataAccess.Repositories
             }
         }
 
-        public async Task<BulkResponse> ElasticIndexData(IEnumerable<WebAppData> data)
-        { 
-            var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-                .DefaultIndex(nameof(WebAppData).ToLower());
-            
-            var client = new ElasticClient(settings);
-
-            
-            var response = await client.BulkAsync(x => x.IndexMany(data));   
-
-            return response;
-        }
-
-        public async Task<List<WebAppData>> ElasticSearch()
+        public async Task<IEnumerable<WebAppData>> GetPartsRecords(int from, int count)
         {
-            var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-                .DefaultIndex(nameof(WebAppData).ToLower());
+            var sql = $@"GetPartsRecords";
 
-            var client = new ElasticClient(settings);
+            var watch = new Stopwatch();
 
-            var searchResponse = await client.SearchAsync<WebAppData>(s => s
-                .From(0)
-                .Size(10)
-                .Query(q => q
-                    .Range(x=>x
-                        .Field(c=>c.RecId)
-                            .GreaterThanOrEquals(1)
-                            .LessThanOrEquals(3)
-                    )                     
-                )
-            );
+            using (var connection = SqlConnection())
+            {
+                watch.Start();
+                var items = await connection.QueryAsync<WebAppData>(
+                    sql,
+                    new { Skip = from, Take = count },
+                    commandType: CommandType.StoredProcedure);
 
-            var webAppDatas = searchResponse.Documents.ToList();
-
-            return webAppDatas;
+                watch.Stop();
+                System.Console.WriteLine(watch);
+                return items;
+            }
         }
-
-        public async Task<List<WebAppData>> ElasticSearchTerm()
-        {
-            var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-                .DefaultIndex(nameof(WebAppData).ToLower());
-
-            var client = new ElasticClient(settings);
-
-            var searchResponse = await client.SearchAsync<WebAppData>(s => s
-                .From(0)
-                .Size(10)
-                .Query(q => q
-                    .Term(t=>t.RecId, 1)|| q
-                    .Term(r=>r.RecId , 3)                    
-                )
-            );
-
-            var webAppDatas = searchResponse.Documents.ToList();
-
-            return webAppDatas;
-        }
-
     }
 }

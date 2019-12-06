@@ -2,6 +2,7 @@
 using DataAccess.Entities;
 using DataAccess.Repositories;
 using DataAccess.Repositories.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace DataAccess
 {
     public class Configuration
     {
-        public static void Add(IServiceCollection services, string connectionString)
+        public static void Add(IServiceCollection services, IConfiguration configuration)
         {
             AddDependecies(services);
             SQlMapper();

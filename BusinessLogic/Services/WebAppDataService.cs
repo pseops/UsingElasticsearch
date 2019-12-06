@@ -20,24 +20,5 @@ namespace BusinessLogic.Services
         {
             return await _dataRepository.GetAllAsync();
         }
-
-        public async Task<BulkResponse> IndexData()
-        {
-            var data = await GetAll();
-            var result = await _dataRepository.ElasticIndexData(data);
-            return result;
-        }
-
-        public async Task<List<WebAppData>> SearchData()
-        {
-            var response = await _dataRepository.ElasticSearch();
-            return response;
-        }
-
-        public async Task<List<WebAppData>> TermSearchData()
-        {
-            var response = await _dataRepository.ElasticSearchTerm();
-            return response;
-        }
     }
 }

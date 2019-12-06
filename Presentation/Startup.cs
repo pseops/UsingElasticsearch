@@ -17,12 +17,10 @@ namespace Presentation
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            Configuration.Add(services, _configuration);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-            Configuration.Add(services, connectionString);
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
