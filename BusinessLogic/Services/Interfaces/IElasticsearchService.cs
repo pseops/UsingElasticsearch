@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using BusinessLogic.Common.Models;
+using DataAccess.Entities;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,8 @@ namespace BusinessLogic.Services.Interfaces
 {
     public interface IElasticsearchService
     {
-        Task<List<WebAppData>> ElasticSearch();
-        Task<List<WebAppData>> ElasticSearchTerm();
+        Task<List<WebAppData>> TermSearchAsync(TermSearchFilter filter);
         Task<List<BulkResponseItemBase>> IndexData();
-        Task<IEnumerable<WebAppData>> GetPartsRecords();
+        Task<List<WebAppData>> RangeSearchAsync(RangeSearchFilter filter);
     }
 }

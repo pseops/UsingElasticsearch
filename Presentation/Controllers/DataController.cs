@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BusinessLogic.Common.Models;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,26 +26,20 @@ namespace Presentation.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpPost("rangesearch")]
+        public async Task<IActionResult> RangeSearch([FromBody] RangeSearchFilter filter)
         {
-            var result = await _elasticsearchService.ElasticSearch();
+            var result = await _elasticsearchService.RangeSearchAsync(filter);
             return Ok(result);
         }
 
-        [HttpGet("termsearch")]
-        public async Task<IActionResult> TermSearch()
+        [HttpPost("termsearch")]
+        public async Task<IActionResult> TermSearch([FromBody]TermSearchFilter filter)
         {
-            var result = await _elasticsearchService.ElasticSearchTerm();
+            var result = await _elasticsearchService.TermSearchAsync(filter);
             return Ok(result);
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> Test()
-        {
-            var result = await _elasticsearchService.GetPartsRecords();
-            return Ok(result);
-        }
 
     }
 }

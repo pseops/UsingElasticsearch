@@ -65,50 +65,49 @@ namespace BusinessLogic.Services
             return response;
         }
 
-        public async Task<IEnumerable<WebAppData>> GetPartsRecords()
-        {
-            return await _dataRepository.GetPartsRecords(50000, 10000);
-        }
 
         private async Task<BulkResponse> ElasticIndexDataAsync(IEnumerable<WebAppData> data)
         {
+            if (!data.Any())
+            {
+                return null;
+            }
+
             var client = _elasticClient;
 
             var response = await client.BulkAsync(x => x.IndexMany(data, (z, doc) => z.Document(doc).Index(_elasticOptions.Index)));
+
             return response;
         }
 
-        public async Task<List<WebAppData>> ElasticSearch()
+        public async Task<List<WebAppData>> RangeSearchAsync(RangeSearchFilter filter)
         {
             var client = _elasticClient;
 
             var searchResponse = await client.SearchAsync<WebAppData>(s => s
-                .From(0)
-                .Size(10)
+                .From(filter.From)
+                .Size(filter.Count)
                 .Query(q => q
                     .Range(x => x
-                        .Field(c => c.RecId)
-                            .GreaterThanOrEquals(1)
-                            .LessThanOrEquals(3)
+                        .Field(filter.ColumnName)
+                            .GreaterThanOrEquals(filter.MinValue)
+                            .LessThanOrEquals(filter.MaxValue)
                     )
                 )
             );
-
             var webAppDatas = searchResponse.Documents.ToList();
 
             return webAppDatas;
         }
 
-        public async Task<List<WebAppData>> ElasticSearchTerm()
+        public async Task<List<WebAppData>> TermSearchAsync(TermSearchFilter filter)
         {
             var client = _elasticClient;
 
             var searchResponse = await client.SearchAsync<WebAppData>(s => s
-                .From(0)
-                .Size(10)
-                .Query(q => q
-                    .Term(t => t.RecId, 1) || q
-                    .Term(r => r.RecId, 3)
+                .From(filter.From)
+                .Size(filter.Count)
+                .Query(q => q.Terms(t=>t.Field(filter.ColumnName).Terms(filter.Values))
                 )
             );
 
