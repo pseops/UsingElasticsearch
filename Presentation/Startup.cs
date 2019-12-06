@@ -29,11 +29,13 @@ namespace Presentation
             {
                 app.UseDeveloperExceptionPage();
             }
+
             else
             {
                 app.UseHsts();
             }
             app.UseSwagger();
+            app.UseCors("OriginPolicy");
 
             app.UseSwaggerUI(c =>
             {
