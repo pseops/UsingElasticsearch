@@ -103,7 +103,7 @@ namespace BusinessLogic.Services
                             .GreaterThanOrEquals(filter.MinValue)
                             .LessThanOrEquals(filter.MaxValue)
                     )
-                ).
+                )
             );
 
             var webAppDatas = searchResponse.Documents.ToList();
