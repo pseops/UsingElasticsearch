@@ -29,7 +29,7 @@ namespace BusinessLogic.Services
         {
             var deleteResponse = await DeleteIndexAsync();
 
-            var count = 10000;
+            var count = 5000;
 
             var result = new List<BulkResponseItemBase>();
 
@@ -62,6 +62,7 @@ namespace BusinessLogic.Services
         private async Task<DeleteIndexResponse> DeleteIndexAsync()
         {
             var response = await _elasticClient.Indices.DeleteAsync(_elasticOptions.Index);
+            //var response = await _elasticClient.DeleteByQueryAsync<WebAppData>(x => x.Query(q => q.QueryString(s => s.Query("*"))));
             return response;
         }
 
@@ -80,9 +81,18 @@ namespace BusinessLogic.Services
             return response;
         }
 
-        public async Task<List<WebAppData>> RangeSearchAsync(RangeSearchFilter filter)
+        public async Task<SearchResponseView> RangeSearchAsync(RangeSearchFilter filter)
         {
             var client = _elasticClient;
+
+            var count = await client.CountAsync<WebAppData>(s => s
+                .Query(q => q
+                    .Range(x => x
+                        .Field(filter.ColumnName)
+                            .GreaterThanOrEquals(filter.MinValue)
+                            .LessThanOrEquals(filter.MaxValue)
+                    )
+                ));
 
             var searchResponse = await client.SearchAsync<WebAppData>(s => s
                 .From(filter.From)
@@ -95,14 +105,22 @@ namespace BusinessLogic.Services
                     )
                 )
             );
+
             var webAppDatas = searchResponse.Documents.ToList();
 
-            return webAppDatas;
+            var response = new SearchResponseView();
+            response.Items = webAppDatas;
+            response.ItemsCount = count.Count;
+
+            return response;
         }
 
-        public async Task<List<WebAppData>> TermSearchAsync(TermSearchFilter filter)
+        public async Task<SearchResponseView> TermSearchAsync(TermSearchFilter filter)
         {
             var client = _elasticClient;
+
+            var count = await client.CountAsync<WebAppData>(s => s
+               .Query(q => q.Terms(t => t.Field(filter.ColumnName).Terms(filter.Values))));
 
             var searchResponse = await client.SearchAsync<WebAppData>(s => s
                 .From(filter.From)
@@ -113,7 +131,11 @@ namespace BusinessLogic.Services
 
             var webAppDatas = searchResponse.Documents.ToList();
 
-            return webAppDatas;
+            var response = new SearchResponseView();
+            response.Items = webAppDatas;
+            response.ItemsCount = count.Count;
+
+            return response;
         }
     }
 }

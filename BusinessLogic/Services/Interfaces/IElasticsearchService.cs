@@ -10,8 +10,8 @@ namespace BusinessLogic.Services.Interfaces
 {
     public interface IElasticsearchService
     {
-        Task<List<WebAppData>> TermSearchAsync(TermSearchFilter filter);
+        Task<SearchResponseView> TermSearchAsync(TermSearchFilter filter);
         Task<List<BulkResponseItemBase>> IndexData();
-        Task<List<WebAppData>> RangeSearchAsync(RangeSearchFilter filter);
+        Task<SearchResponseView> RangeSearchAsync(RangeSearchFilter filter);
     }
 }

@@ -1,1 +1,102 @@
-<p>search-filter works!</p>
+<div class="container">
+  <div class="range-search-filter">
+    <form [formGroup]="rangeFilterForm" (ngSubmit)="rangeSearch()">
+      <div>
+        <mat-form-field class="mat-form-field" >
+          <mat-label>Column name</mat-label>
+          <input matInput formControlName="columnName" [(ngModel)]="rangeFilter.columnName" autocomplete="off">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="mat-form-field" >
+          <mat-label>Min value</mat-label>
+          <input matInput type="number" formControlName="minValue" [(ngModel)]="rangeFilter.minValue" >
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="mat-form-field" >
+          <mat-label>Max value</mat-label>
+          <input matInput type="number" formControlName="maxValue" [(ngModel)]="rangeFilter.maxValue" >
+        </mat-form-field>
+      </div>
+
+      <div class="first-btn">
+        <button type="submit">Range search</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="term-search-filter">
+      <form [formGroup]="termFilterForm" (ngSubmit)="termSearch()">
+        <div>
+          <mat-form-field class="mat-form-field" >
+            <mat-label>Column name</mat-label>
+            <input matInput formControlName="columnName" [(ngModel)]="termFilter.columnName" autocomplete="off">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="mat-form-field" >
+            <mat-label>Values</mat-label>
+            <input matInput formControlName="values" [(ngModel)]="termFilter.values" autocomplete="off">
+          </mat-form-field>
+        </div>
+
+        <div class="first-btn">
+          <button type="submit">Term search</button>
+        </div>
+      </form>
+    </div>
+</div>
+
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<div class="table-container">
+  <table mat-table [dataSource]="webAppData.items" matSort (matSortChange)="sortData($event)" matSortActive="ID"
+  matSortDisableClear matSortDirection="asc" >
+    <ng-container matColumnDef="recId" sticky>
+      <th mat-header-cell mat-sort-header="recId" disableClear *matHeaderCellDef>recId</th>
+      <td mat-cell *matCellDef="let element"> {{element.recId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rowId">
+      <th mat-header-cell *matHeaderCellDef> rowId </th>
+      <td mat-cell *matCellDef="let element"> {{element.rowId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="profileTypeId">
+      <th mat-header-cell *matHeaderCellDef> profileTypeId </th>
+      <td mat-cell *matCellDef="let element"> {{element.profileTypeId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="holidayYear">
+      <th mat-header-cell *matHeaderCellDef> holidayYear </th>
+      <td mat-cell *matCellDef="let element"> {{element.holidayYear}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="weekNumber">
+      <th mat-header-cell *matHeaderCellDef> weekNumber </th>
+      <td mat-cell *matCellDef="let element"> {{element.weekNumber}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="keyPeriodName">
+      <th mat-header-cell *matHeaderCellDef> keyPeriodName </th>
+      <td mat-cell *matCellDef="let element"> {{element.keyPeriodName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="regionName">
+      <th mat-header-cell *matHeaderCellDef> regionName </th>
+      <td mat-cell *matCellDef="let element"> {{element.regionName}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<div >
+  <mat-paginator #paginator [(pageSize)]="rangeFilter.count" [pageSizeOptions]="[3,5,10,25,50]"
+  [showFirstLastButtons]="true" [length]="webAppData.itemsCount"
+  [pageIndex]="rangeFilter.from / rangeFilter.count" (page)="handlePage($event)">
+  </mat-paginator>
+</div>
