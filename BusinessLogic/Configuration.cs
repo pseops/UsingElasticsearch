@@ -23,6 +23,8 @@ namespace BusinessLogic
         {
             services.AddTransient<IWebAppDataService, WebAppDataService>();
             services.AddTransient<IElasticsearchService, ElasticsearchService>();
+            services.AddTransient<IMainScreenService, MainScreenService>();
+
         }
 
         public static void AddElasticOptions(IServiceCollection services, IConfiguration configuration)

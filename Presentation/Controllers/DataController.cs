@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BusinessLogic.Common.Models;
+using BusinessLogic.Common.Models.Request;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +12,13 @@ namespace Presentation.Controllers
     {
         private readonly IWebAppDataService _webAppDataService;
         private readonly IElasticsearchService _elasticsearchService;
+        private readonly IMainScreenService _mainScreenService;
 
-        public DataController(IWebAppDataService webAppDataService, IElasticsearchService elasticsearchService)
+        public DataController(IWebAppDataService webAppDataService, IElasticsearchService elasticsearchService, IMainScreenService mainScreenService)
         {
             _webAppDataService = webAppDataService;
             _elasticsearchService = elasticsearchService;
+            _mainScreenService = mainScreenService;
         }
 
         [HttpGet("getdata")]
@@ -40,6 +42,11 @@ namespace Presentation.Controllers
             return Ok(result);
         }
 
-
+        [HttpPost("getdropdownvalues")]
+        public async Task<IActionResult> GetDropDownValues([FromBody]RequestDropDownValues request)
+        {
+            var result = await _mainScreenService.GetDropDownValues(request);
+            return Ok(result);
+        }
     }
 }

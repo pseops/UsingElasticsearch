@@ -7,7 +7,6 @@ using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
@@ -114,6 +113,7 @@ namespace BusinessLogic.Services
 
             return response;
         }
+        
 
         public async Task<SearchResponseView> TermSearchAsync(TermSearchFilter filter)
         {

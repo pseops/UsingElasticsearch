@@ -25,6 +25,7 @@ export class SearchFilterComponent implements OnInit {
       this.termFilter = new TermSearchFilterView();
       this.buildForms();
       this.displayedColumns = ['recId', 'rowId', 'profileTypeId', 'holidayYear', 'weekNumber', 'keyPeriodName', 'regionName'];
+
       this.setupTestFilter();
     }
 
