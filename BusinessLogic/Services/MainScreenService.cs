@@ -7,6 +7,7 @@ using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.Options;
 using Nest;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,6 +29,8 @@ namespace BusinessLogic.Services
         public async Task<ResponseDropDownValues> GetDropDownValues(RequestDropDownValues request)
         {
             var client = _elasticClient;
+            var str = request.CurrentFilter.Substring(0, 1).ToUpper() + request.CurrentFilter.Substring(1);
+            request.GetType().GetProperty(str).SetValue(request, null);
 
             var searchResponse = await client.SearchAsync<WebAppData>(s => s
                 .Query(q => q
@@ -37,7 +40,7 @@ namespace BusinessLogic.Services
                             ), m => m
                             .Terms(t => t.Field(nameof(request.RegionName).GetFilterName()).Terms(request.RegionName)
                             ), m => m
-                            .Term(t => t.Field(nameof(request.ResponsibleRevenueManager).GetFilterName()).Value(request.ResponsibleRevenueManager)
+                            .Terms(t => t.Field(nameof(request.ResponsibleRevenueManager).GetFilterName()).Terms(request.ResponsibleRevenueManager)
                             ), m => m
                             .Terms(t => t.Field(nameof(request.WeekNumber).GetFilterName()).Terms(request.WeekNumber)
                             ), m => m

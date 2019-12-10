@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchService } from '../core/services/search.service';
-import { WebAppDataView, RangeSearchFilterView, WebAppDataViewItem, TermSearchFilterView } from '../shared/models';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SearchService } from '../../core/services/search.service';
+import { WebAppDataView, RangeSearchFilterView, TermSearchFilterView } from '../../shared/models';
+import { FormBuilder, FormGroup, Validators, NgModel } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
+import { TableConstants, FilterConstants } from 'src/app/shared/constants';
+import { RequestDropDownValues } from 'src/app/shared/models/request/request-drop-down-values';
+import { ResponseDropDownValues } from 'src/app/shared/models/response/response-drop-down-values';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-search-filter',
@@ -16,18 +20,32 @@ export class SearchFilterComponent implements OnInit {
   rangeFilterForm: FormGroup;
   termFilterForm: FormGroup;
   displayedColumns: string[];
+  requestDropDown: RequestDropDownValues;
+  storedDropDown: RequestDropDownValues;
+  responseDropDown: ResponseDropDownValues;
+  multiSelectFilters: string[];
+  selectFilters: string[];
+
   constructor(
     private searchService: SearchService,
     private formBuilder: FormBuilder,
-    ) {
-      this.webAppData = new WebAppDataView();
-      this.rangeFilter = new RangeSearchFilterView();
-      this.termFilter = new TermSearchFilterView();
-      this.buildForms();
-      this.displayedColumns = ['recId', 'rowId', 'profileTypeId', 'holidayYear', 'weekNumber', 'keyPeriodName', 'regionName'];
+    private tableConst: TableConstants,
+    private filterConst: FilterConstants
+  ) {
+    this.webAppData = new WebAppDataView();
+    this.rangeFilter = new RangeSearchFilterView();
+    this.termFilter = new TermSearchFilterView();
+    this.requestDropDown = new RequestDropDownValues();
+    this.storedDropDown = new RequestDropDownValues();
+    this.responseDropDown = new ResponseDropDownValues();
+    this.multiSelectFilters = filterConst.multiSelectFilters;
+    this.selectFilters = filterConst.selectFilters;
 
-      this.setupTestFilter();
-    }
+    this.buildForms();
+    this.displayedColumns = tableConst.displayedColumns;
+
+    this.setupTestFilter();
+  }
 
   ngOnInit() {
     this.rangeSearch();
@@ -46,11 +64,11 @@ export class SearchFilterComponent implements OnInit {
       columnName: ['', Validators.required],
       minValue: ['', Validators.required],
       maxValue: ['', Validators.required],
-   });
+    });
     this.termFilterForm = this.formBuilder.group({
       columnName: ['', Validators.required],
       values: ['', Validators.required]
-  });
+    });
   }
 
   termSearch(): void {
@@ -82,10 +100,27 @@ export class SearchFilterComponent implements OnInit {
     this.rangeSearch();
   }
 
+  getDropDownValues(currentFilter: string): void {
+    this.requestDropDown.currentFilter = currentFilter;
+
+    this.searchService.getDropDownValues(this.requestDropDown).subscribe(data => {
+      this.responseDropDown = data;
+      this.storedDropDown[currentFilter] = data.items;
+    });
+  }
+
   sortData(sort: Sort): void {
     // this.printingEditionFilterModel.SortColumn = SortColumnType[sort.active];
     // this.printingEditionFilterModel.SortType = SortType[sort.direction];
 
     // this.getPrintingEditions();
+  }
+
+  checkBoxEventHandler(event: MatSelectChange, filter: string): void {
+    let model = (event.source.ngControl as NgModel).model as Array<string>;
+
+    if (model.length !== 0 && model[0] !== null) {
+      this.requestDropDown[filter] = this.requestDropDown[filter].filter(f => !f.includes(model));
+    }
   }
 }

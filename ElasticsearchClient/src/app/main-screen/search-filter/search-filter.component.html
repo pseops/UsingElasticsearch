@@ -29,27 +29,52 @@
   </div>
 
   <div class="term-search-filter">
-      <form [formGroup]="termFilterForm" (ngSubmit)="termSearch()">
-        <div>
-          <mat-form-field class="mat-form-field" >
-            <mat-label>Column name</mat-label>
-            <input matInput formControlName="columnName" [(ngModel)]="termFilter.columnName" autocomplete="off">
-          </mat-form-field>
-        </div>
+    <form [formGroup]="termFilterForm" (ngSubmit)="termSearch()">
+      <div>
+        <mat-form-field class="mat-form-field" >
+          <mat-label>Column name</mat-label>
+          <input matInput formControlName="columnName" [(ngModel)]="termFilter.columnName" autocomplete="off">
+        </mat-form-field>
+      </div>
 
-        <div>
-          <mat-form-field class="mat-form-field" >
-            <mat-label>Values</mat-label>
-            <input matInput formControlName="values" [(ngModel)]="termFilter.values" autocomplete="off">
-          </mat-form-field>
-        </div>
+      <div>
+        <mat-form-field class="mat-form-field" >
+          <mat-label>Values</mat-label>
+          <input matInput formControlName="values" [(ngModel)]="termFilter.values" autocomplete="off">
+        </mat-form-field>
+      </div>
 
-        <div class="first-btn">
-          <button type="submit">Term search</button>
-        </div>
-      </form>
+      <div class="first-btn">
+        <button type="submit">Term search</button>
+      </div>
+    </form>
+  </div>
+  <div>
+    <mat-form-field *ngFor="let item of multiSelectFilters">
+      <mat-label>{{item}}</mat-label>
+      <mat-select [(ngModel)]="requestDropDown[item]" (opened)="getDropDownValues(item)" multiple>
+        <ng-container *ngFor="let dropDown of storedDropDown[item]">
+          <mat-option [value]="dropDown">
+            {{dropDown}}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+      <mat-form-field *ngFor="let item of selectFilters">
+        <mat-label>{{item}}</mat-label>
+        <mat-select [(ngModel)]="requestDropDown[item]" (selectionChange)="checkBoxEventHandler($event, item)" (opened)="getDropDownValues(item)" multiple>
+          <ng-container *ngFor="let dropDown of storedDropDown[item]">
+            <mat-option [value]="dropDown">
+              {{dropDown}}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
     </div>
 </div>
+
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 <div class="table-container">

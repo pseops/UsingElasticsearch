@@ -1,6 +1,5 @@
 ﻿using DataAccess.Entities;
 using System;
-using System.Linq;
 
 namespace BusinessLogic.Helpers
 {
@@ -9,6 +8,10 @@ namespace BusinessLogic.Helpers
 
         public static string GetFilterName(this string filter)
         {
+            if (string.IsNullOrWhiteSpace(filter))
+            {
+                return null;
+            }
             filter = filter.Substring(0,1).ToUpper()+filter.Substring(1);
 
             var property = typeof(WebAppData).GetProperty(filter);

@@ -21,7 +21,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
-
+import {MatProgressSpinnerModule} from '@angular/material';
 
 
 @NgModule({
@@ -48,6 +48,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatBadgeModule,
@@ -70,6 +71,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule { }

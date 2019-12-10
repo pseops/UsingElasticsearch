@@ -29,6 +29,7 @@ export class WebAppDataViewItem {
   unitGradeWeekOccupancy: number | null;
   unitGradeRecencyOfLastSale: number | null;
   accommWeekOccupancy: number | null;
+
   friRackRate: number | null;
   friCurrentFitPrice: number | null;
   friCurrentStandardDiscount: number | null;
@@ -56,6 +57,7 @@ export class WebAppDataViewItem {
   friBookingsSinceLastChange: number | null;
   friMinimumPrice: number | null;
   friUpdatedBy: string;
+
   satRackRate: number | null;
   satCurrentFitPrice: number | null;
   satCurrentStandardDiscount: number | null;
@@ -83,6 +85,7 @@ export class WebAppDataViewItem {
   satBookingsSinceLastChange: number | null;
   satMinimumPrice: number | null;
   satUpdatedBy: string;
+
   monRackRate: number | null;
   monCurrentFitPrice: number | null;
   monCurrentStandardDiscount: number | null;
@@ -110,5 +113,6 @@ export class WebAppDataViewItem {
   monBookingsSinceLastChange: number | null;
   monMinimumPrice: number | null;
   monUpdatedBy: string;
+
   allNotAproved: boolean;
 }

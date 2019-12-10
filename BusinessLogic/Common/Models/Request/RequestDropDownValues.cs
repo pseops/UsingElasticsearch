@@ -9,7 +9,7 @@ namespace BusinessLogic.Common.Models.Request
         public IEnumerable<string> HolidayYear { get; set; }
         public IEnumerable<string> RegionName { get; set; }
         public IEnumerable<string> WeekNumber { get; set; }
-        public string ResponsibleRevenueManager { get; set; }
+        public IEnumerable<string> ResponsibleRevenueManager { get; set; }
         public IEnumerable<string> ParkName { get; set; }
         public IEnumerable<string> AccommTypeName { get; set; }
         public IEnumerable<string> AccommBeds { get; set; }
