@@ -1,6 +1,4 @@
-export class RequestDropDownValues {
-  currentFilter: string;
-  size: number;
+export class FiltersModel {
   holidayYear: string[];
   regionName: string[];
   weekNumber: string[];
@@ -13,8 +11,6 @@ export class RequestDropDownValues {
   keyPeriodName: string[];
 
   constructor() {
-    this.currentFilter = null;
-    this.size = 1000;
     this.holidayYear = [null];
     this.regionName = [null];
     this.weekNumber = [null];

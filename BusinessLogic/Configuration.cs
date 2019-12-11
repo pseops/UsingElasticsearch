@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Common.Models;
+﻿using BusinessLogic.Options;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DataAccess.Entities;

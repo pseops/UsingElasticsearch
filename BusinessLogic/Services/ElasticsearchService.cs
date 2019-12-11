@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Common.Models;
+﻿using BusinessLogic.Options;
 using BusinessLogic.Services.Interfaces;
 using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
@@ -78,64 +78,6 @@ namespace BusinessLogic.Services
             var response = await client.BulkAsync(x => x.IndexMany(data, (z, doc) => z.Document(doc).Index(_elasticOptions.Index)));
 
             return response;
-        }
-
-        public async Task<SearchResponseView> RangeSearchAsync(RangeSearchFilter filter)
-        {
-            var client = _elasticClient;
-
-            var count = await client.CountAsync<WebAppData>(s => s
-                .Query(q => q
-                    .Range(x => x
-                        .Field(filter.ColumnName)
-                            .GreaterThanOrEquals(filter.MinValue)
-                            .LessThanOrEquals(filter.MaxValue)
-                    )
-                ));
-
-            var searchResponse = await client.SearchAsync<WebAppData>(s => s
-                .From(filter.From)
-                .Size(filter.Count)
-                .Query(q => q
-                    .Range(x => x
-                        .Field(filter.ColumnName)
-                            .GreaterThanOrEquals(filter.MinValue)
-                            .LessThanOrEquals(filter.MaxValue)
-                    )
-                )
-            );
-
-            var webAppDatas = searchResponse.Documents.ToList();
-
-            var response = new SearchResponseView();
-            response.Items = webAppDatas;
-            response.ItemsCount = count.Count;
-
-            return response;
-        }
-        
-
-        public async Task<SearchResponseView> TermSearchAsync(TermSearchFilter filter)
-        {
-            var client = _elasticClient;
-
-            var count = await client.CountAsync<WebAppData>(s => s
-               .Query(q => q.Terms(t => t.Field(filter.ColumnName).Terms(filter.Values))));
-
-            var searchResponse = await client.SearchAsync<WebAppData>(s => s
-                .From(filter.From)
-                .Size(filter.Count)
-                .Query(q => q.Terms(t=>t.Field(filter.ColumnName).Terms(filter.Values))
-                )
-            );
-
-            var webAppDatas = searchResponse.Documents.ToList();
-
-            var response = new SearchResponseView();
-            response.Items = webAppDatas;
-            response.ItemsCount = count.Count;
-
-            return response;
-        }
+        }          
     }
 }

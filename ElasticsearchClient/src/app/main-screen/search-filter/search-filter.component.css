@@ -1,4 +1,4 @@
-.container {
+.filter-container {
   margin-left: 30px;
   margin-top: 30px;
   display: flex;
@@ -10,9 +10,36 @@
 
 .table-container{
   width: 100%;
-  height: 600px;
+  height: 560px;
   overflow: auto;
 }
-table {
-  width: 100%;
+table.mat-table {
+  width: 15000px;
+}
+.multi-select {
+  margin: 10px 10px 10px 10px;
+}
+
+.select {
+  margin: 10px 10px 10px 10px;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0px 10px 0px;
+}
+
+.search-button {
+  width: 200px;
+  height: 30px;
+}
+
+.reset-button {
+  width: 200px;
+  height: 30px;
+}
+.mat-expansion-panel-header-title {
+  justify-content: center;
+  align-items: center;
 }

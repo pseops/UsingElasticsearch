@@ -1,9 +1,9 @@
-export class WebAppDataView {
- items: Array<WebAppDataViewItem> = new Array<WebAppDataViewItem>();
- itemsCount: number;
+export class ResponseSearchMainScreenView {
+  items: Array<ResponseSearchMainScreenViewItem> = new Array<ResponseSearchMainScreenViewItem>();
+  itemsCount: number;
 }
 
-export class WebAppDataViewItem {
+export class ResponseSearchMainScreenViewItem {
   recId: number;
   rowId: string;
   profileTypeId: number | null;

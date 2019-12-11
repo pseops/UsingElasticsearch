@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using BusinessLogic.Common.Models;
-using BusinessLogic.Common.Models.Request;
+using BusinessLogic.Common.Views;
+using BusinessLogic.Common.Views.Request;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,30 +21,23 @@ namespace Presentation.Controllers
             _mainScreenService = mainScreenService;
         }
 
-        [HttpGet("getdata")]
-        public async Task<IActionResult> GetData()
+        [HttpGet("index")]
+        public async Task<IActionResult> Index()
         {
             var result = await _elasticsearchService.IndexData();
             return Ok(result);
         }
 
-        [HttpPost("rangesearch")]
-        public async Task<IActionResult> RangeSearch([FromBody] RangeSearchFilter filter)
+        [HttpPost("search")]
+        public async Task<IActionResult> Search([FromBody]RequestSearchMainScreenView filter)
         {
-            var result = await _elasticsearchService.RangeSearchAsync(filter);
-            return Ok(result);
-        }
-
-        [HttpPost("termsearch")]
-        public async Task<IActionResult> TermSearch([FromBody]TermSearchFilter filter)
-        {
-            var result = await _elasticsearchService.TermSearchAsync(filter);
+            var result = await _mainScreenService.SearchAsync(filter);
             return Ok(result);
         }
 
         [HttpPost("getdropdownvalues")]
-        public async Task<IActionResult> GetDropDownValues([FromBody]RequestDropDownValues request)
-        {
+        public async Task<IActionResult> GetDropDownValues([FromBody]RequestFiltersMainScreenView request)
+        {            
             var result = await _mainScreenService.GetDropDownValues(request);
             return Ok(result);
         }

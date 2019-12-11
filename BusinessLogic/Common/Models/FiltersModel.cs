@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace BusinessLogic.Common.Models.Request
+namespace BusinessLogic.Common.Models
 {
-    public class RequestDropDownValues
+    public class FiltersModel
     {
-        public string CurrentFilter { get; set; }
-        public int Size { get; set; }
         public IEnumerable<string> HolidayYear { get; set; }
         public IEnumerable<string> RegionName { get; set; }
         public IEnumerable<string> WeekNumber { get; set; }

@@ -1,16 +1,16 @@
 export class FilterConstants {
   multiSelectFilters: string[] = [
-    'holidayYear',
-    'regionName',
-    'weekNumber',
-    'parkName',
-    'accommTypeName',
-    'accommBeds',
-    'unitGradeName',
-    'keyPeriodName',
+    'HolidayYear',
+    'RegionName',
+    'WeekNumber',
+    'ParkName',
+    'AccommTypeName',
+    'AccommBeds',
+    'UnitGradeName',
+    'KeyPeriodName',
   ];
 
   selectFilters: string[] = [
-    'responsibleRevenueManager'
+    'ResponsibleRevenueManager'
   ];
 }

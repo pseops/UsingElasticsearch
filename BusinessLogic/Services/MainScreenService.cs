@@ -1,13 +1,12 @@
-﻿using BusinessLogic.Common.Models;
-using BusinessLogic.Common.Models.Request;
-using BusinessLogic.Common.Models.Response;
+﻿using BusinessLogic.Common.Views.Request;
+using BusinessLogic.Common.Views.Response;
 using BusinessLogic.Helpers;
+using BusinessLogic.Options;
 using BusinessLogic.Services.Interfaces;
 using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.Options;
 using Nest;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,55 +25,55 @@ namespace BusinessLogic.Services
             _elasticOptions = elasticOptions.Value;
         }
 
-        public async Task<ResponseDropDownValues> GetDropDownValues(RequestDropDownValues request)
+        public async Task<ResponseFiltersMainScreenView> GetDropDownValues(RequestFiltersMainScreenView request)
         {
             var client = _elasticClient;
-            var str = request.CurrentFilter.Substring(0, 1).ToUpper() + request.CurrentFilter.Substring(1);
-            request.GetType().GetProperty(str).SetValue(request, null);
+
+            var str = request.CurrentFilter.ToString().FirstLetterToUpper();
+
+            request.GetType().GetProperty(nameof(request.Filters)).PropertyType.GetProperty(str).SetValue(request.Filters, null);
 
             var searchResponse = await client.SearchAsync<WebAppData>(s => s
                 .Query(q => q
-                    .Bool(b => b
-                        .Must(m => m
-                            .Terms(t => t.Field(nameof(request.HolidayYear).GetFilterName()).Terms(request.HolidayYear)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.RegionName).GetFilterName()).Terms(request.RegionName)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.ResponsibleRevenueManager).GetFilterName()).Terms(request.ResponsibleRevenueManager)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.WeekNumber).GetFilterName()).Terms(request.WeekNumber)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.ParkName).GetFilterName()).Terms(request.ParkName)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.AccommTypeName).GetFilterName()).Terms(request.AccommTypeName)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.AccommBeds).GetFilterName()).Terms(request.AccommBeds)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.AccommName).GetFilterName()).Terms(request.AccommName)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.UnitGradeName).GetFilterName()).Terms(request.UnitGradeName)
-                            ), m => m
-                            .Terms(t => t.Field(nameof(request.KeyPeriodName).GetFilterName()).Terms(request.KeyPeriodName)
-                            )
-                        )
-                    )
-                )
+                    .SearchQuery(request.Filters))
                 .Aggregations(a => a
-                    .Terms(request.CurrentFilter, c => c
-                        .Field(request.CurrentFilter.GetFilterName())
+                    .Terms(request.CurrentFilter.ToString(), c => c
+                        .Field(request.CurrentFilter.ToString().GetFilterName())
                         .Size(request.Size)
                         .Order(o => o.KeyAscending())
                     )
                 )
             );
 
-            var result = searchResponse.Aggregations.Terms(request.CurrentFilter).Buckets.Select(s => s.Key).ToList();
+            var result = searchResponse.Aggregations.Terms(request.CurrentFilter.ToString()).Buckets.Select(s => s.Key).ToList();
 
-            var response = new ResponseDropDownValues();
+            var response = new ResponseFiltersMainScreenView();
 
             response.Items.AddRange(result);
 
             return response;
         }
+        public async Task<ResponseSearchMainScreenView> SearchAsync(RequestSearchMainScreenView request)
+        {
+            var client = _elasticClient;         
+
+            var searchResponse = await client.SearchAsync<WebAppData>(s => s
+                .From(request.From)
+                .Size(request.Count)
+                .Query(q => q
+                    .SearchQuery(request.Filters))
+                .Aggregations(a=>a.ValueCount("valueCount", v=>v.Field(f=>f.RecId)))
+                );
+
+            var webAppDatas = searchResponse.Documents.ToList();
+            var count = searchResponse.Aggregations.ValueCount("valueCount").Value;
+
+            var response = new ResponseSearchMainScreenView();
+            response.Items = webAppDatas;
+            response.ItemsCount = (int)count;
+
+            return response;
+        }
+
     }
 }

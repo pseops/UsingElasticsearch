@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace BusinessLogic.Common.Models.Response
+namespace BusinessLogic.Common.Views.Response
 {
-    public class ResponseDropDownValues
+    public class ResponseFiltersMainScreenView
     {
         public List<string> Items { get; set; }
-        public ResponseDropDownValues()
+        public ResponseFiltersMainScreenView()
         {
             Items = new List<string>();
         }

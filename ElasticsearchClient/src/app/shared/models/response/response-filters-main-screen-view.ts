@@ -1,4 +1,4 @@
-export class ResponseDropDownValues {
+export class ResponseFiltersMainScreenView {
   items: string[];
 
   constructor() {

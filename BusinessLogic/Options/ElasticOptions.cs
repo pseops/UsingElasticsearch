@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogic.Common.Models
+﻿namespace BusinessLogic.Options
 {
     public class ElasticOptions
     {
