@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material/material.module';
-import { TableConstants, FilterConstants } from '../constants';
 
 
 
@@ -14,8 +13,6 @@ import { TableConstants, FilterConstants } from '../constants';
     MaterialModule
   ],
   providers: [
-    TableConstants,
-    FilterConstants
   ],
 })
 export class SharedModule { }

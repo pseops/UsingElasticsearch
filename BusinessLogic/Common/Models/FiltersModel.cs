@@ -16,5 +16,9 @@ namespace BusinessLogic.Common.Models
         public IEnumerable<string> UnitGradeName { get; set; }
         public IEnumerable<string> AccommName { get; set; }
         public IEnumerable<string> KeyPeriodName { get; set; }
+        public string LessParkWeekOccupancy { get; set; }
+        public string GreaterParkWeekOccupancy { get; set; }
+
+
     }
 }

@@ -3,23 +3,12 @@
     <mat-panel-title>Filters</mat-panel-title>
   </mat-expansion-panel-header>
   <div class="filter-container">
-    <div class="multi-select-container">
-      <mat-form-field class="multi-select" *ngFor="let item of multiSelectFilters">
-        <mat-label>{{item}}</mat-label>
-        <mat-select [(ngModel)]="requestFilters.filters[firstLetterToLower(item)]" (opened)="getDropDownValues(firstLetterToLower(item))" multiple>
-          <ng-container *ngFor="let dropDown of storedFilters.filters[firstLetterToLower(item)]">
-            <mat-option [value]="dropDown">
-              {{dropDown}}
-            </mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="select-container">
-        <mat-form-field class="select" *ngFor="let item of selectFilters">
-          <mat-label>{{item}}</mat-label>
-          <mat-select [(ngModel)]="requestFilters.filters[firstLetterToLower(item)]" (selectionChange)="checkBoxEventHandler($event, firstLetterToLower(item))" (opened)="getDropDownValues(item)" multiple>
-            <ng-container *ngFor="let dropDown of storedFilters.filters[firstLetterToLower(item)]">
+    <mat-card class="select-filters">
+      <div class="multi-select-container">
+        <mat-form-field class="multi-select" *ngFor="let item of multiSelectFilters">
+          <mat-label>{{item.viewName}}</mat-label>
+          <mat-select [(ngModel)]="requestFilters.filters[firstLetterToLower(item.name)]" (opened)="getDropDownValues(firstLetterToLower(item.name))" multiple>
+            <ng-container *ngFor="let dropDown of storedFilters.filters[firstLetterToLower(item.name)]">
               <mat-option [value]="dropDown">
                 {{dropDown}}
               </mat-option>
@@ -27,174 +16,70 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="select-container">
+        <mat-form-field class="select" *ngFor="let item of selectFilters">
+          <mat-label>{{item.viewName}}</mat-label>
+          <mat-select [(ngModel)]="requestFilters.filters[firstLetterToLower(item.name)]"
+          (selectionChange)="checkBoxEventHandler($event, firstLetterToLower(item.name))"
+          (opened)="getDropDownValues(firstLetterToLower(item.name))" multiple>
+            <ng-container *ngFor="let dropDown of storedFilters.filters[firstLetterToLower(item.name)]">
+              <mat-option [value]="dropDown">
+                {{dropDown}}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card>
+    <mat-card class="range-filters">
+      <div class="range-container">
+        <mat-form-field>
+          <input matInput string-to-number
+          [ngModel]="requestFilters.filters.greaterParkWeekOccupancy * 100"
+          (ngModelChange)="requestFilters.filters.greaterParkWeekOccupancy = $event / 100"
+           placeholder="More Than" type="number" autocomplete="off"><span matSuffix>%</span>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput string-to-number
+          [value]="requestFilters.filters.lessParkWeekOccupancy * 100"
+          (input)="requestFilters.filters.lessParkWeekOccupancy = $event.target.value / 100"
+           placeholder="Less Than" type="number" autocomplete="off"><span matSuffix>%</span>{{requestFilters.filters.lessParkWeekOccupancy * 100}}
+        </mat-form-field>
+      </div>
+    </mat-card>
   </div>
   <div class="filter-buttons">
     <button class="search-button" (click)="search()" mat-raised-button color="primary" >Filter</button>
     <button class="reset-button" (click)="reset()" mat-raised-button color="warn" >Reset</button>
   </div>
 </mat-expansion-panel>
-<!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+<!----------------------------------------------------------------------------------------------------------------------------------------------->
 <div class="table-container">
   <table mat-table [dataSource]="responseSearchData.items" matSort (matSortChange)="sortData($event)" matSortActive="ID"
   matSortDisableClear matSortDirection="asc" >
-      <ng-container *ngFor="let name of displayedColumns" matColumnDef={{name}}>
-        <th mat-header-cell mat-sort-header={{name}} disableClear *matHeaderCellDef>{{firstLetterToUpper(name)}}</th>
-        <td mat-cell *matCellDef="let element"> {{element[name]}} </td>
-      </ng-container>
-      <!-- <ng-container matColumnDef="parkName" sticky>
-        <th mat-header-cell mat-sort-header="parkName" disableClear *matHeaderCellDef>Park</th>
-        <td mat-cell *matCellDef="let element"> {{element.parkName}} </td>
-      </ng-container>
 
-      <ng-container matColumnDef="accommName">
-        <th mat-header-cell *matHeaderCellDef> AccommName </th>
-        <td mat-cell *matCellDef="let element"> {{element.accommName}} </td>
-      </ng-container>
+    <ng-container *ngFor="let name of mainColumns" matColumnDef={{name.name}} sticky="true">
+      <th [ngStyle]="styleLastSticky(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-header-cell mat-sort-header={{name.name}} disableClear *matHeaderCellDef>{{name.viewName}}</th>
+      <td [ngStyle]="styleLastSticky(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-cell *matCellDef="let element"> {{element[name.name]}} </td>
+    </ng-container>
 
-      <ng-container matColumnDef="accommBeds">
-        <th mat-header-cell *matHeaderCellDef> accommBeds </th>
-        <td mat-cell *matCellDef="let element"> {{element.accommBeds}} </td>
-      </ng-container>
+    <ng-container *ngFor="let name of repeatedColumns" matColumnDef={{name.name}} >
+      <th [ngStyle]="styleLastRepeated(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-header-cell mat-sort-header={{name.name}} disableClear *matHeaderCellDef>{{name.viewName}}</th>
+      <td [ngStyle]="styleLastRepeated(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-cell *matCellDef="let element"> {{element[name.name]}} </td>
+    </ng-container>
 
-      <ng-container matColumnDef="accommTypeName">
-        <th mat-header-cell *matHeaderCellDef> accommTypeName </th>
-        <td mat-cell *matCellDef="let element"> {{element.accommTypeName}} </td>
-      </ng-container>
 
-      <ng-container matColumnDef="unitGradeName">
-        <th mat-header-cell *matHeaderCellDef> unitGradeName </th>
-        <td mat-cell *matCellDef="let element"> {{element.unitGradeName}} </td>
-      </ng-container>
+    <ng-container *ngFor="let name of topHeaders" matColumnDef={{name.name}} sticky={{name.sticky}}>
+      <th class="top-header" mat-header-cell *matHeaderCellDef attr.colspan={{name.count}}>{{name.name}}</th>
+    </ng-container>
 
-      <ng-container matColumnDef="accommPax">
-        <th mat-header-cell *matHeaderCellDef> accommPax </th>
-        <td mat-cell *matCellDef="let element"> {{element.accommPax}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="arrivalDateRevised" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef> arrivalDateRevised </th>
-        <td mat-cell *matCellDef="let element"> {{element.arrivalDateRevised}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friRackRate">
-        <th mat-header-cell *matHeaderCellDef> friRackRate </th>
-        <td mat-cell *matCellDef="let element"> {{element.friRackRate}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friCurrentFitPrice">
-        <th mat-header-cell *matHeaderCellDef> friCurrentFitPrice </th>
-        <td mat-cell *matCellDef="let element"> {{element.friCurrentFitPrice}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friCurrentStandardDiscount">
-        <th mat-header-cell *matHeaderCellDef> friCurrentStandardDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friCurrentStandardDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friCurrentCampaignDiscount">
-        <th mat-header-cell *matHeaderCellDef> friCurrentCampaignDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friCurrentCampaignDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friCurrentEnhancedDiscount">
-        <th mat-header-cell *matHeaderCellDef> friCurrentEnhancedDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friCurrentEnhancedDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friCurrentAdditionalDiscount">
-        <th mat-header-cell *matHeaderCellDef> friCurrentAdditionalDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friCurrentAdditionalDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friCurrentSellingPrice">
-        <th mat-header-cell *matHeaderCellDef> friCurrentSellingPrice </th>
-        <td mat-cell *matCellDef="let element"> {{element.friCurrentSellingPrice}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friNewFitPrice">
-        <th mat-header-cell *matHeaderCellDef> friNewFitPrice </th>
-        <td mat-cell *matCellDef="let element"> {{element.friNewFitPrice}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friNewDiscount">
-        <th mat-header-cell *matHeaderCellDef> friNewDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friNewDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friNewCampaignDiscount">
-        <th mat-header-cell *matHeaderCellDef> friNewCampaignDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friNewCampaignDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friNewEnhancedDiscount">
-        <th mat-header-cell *matHeaderCellDef> friNewEnhancedDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friNewEnhancedDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friNewAdditionalDiscount">
-        <th mat-header-cell *matHeaderCellDef> friNewAdditionalDiscount </th>
-        <td mat-cell *matCellDef="let element"> {{element.friNewAdditionalDiscount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friNewSellingPrice">
-        <th mat-header-cell *matHeaderCellDef> friNewSellingPrice </th>
-        <td mat-cell *matCellDef="let element"> {{element.friNewSellingPrice}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friSellingPriceChange">
-        <th mat-header-cell *matHeaderCellDef> friSellingPriceChange </th>
-        <td mat-cell *matCellDef="let element"> {{element.friSellingPriceChange}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friIsSelect">
-        <th mat-header-cell *matHeaderCellDef> friIsSelect </th>
-        <td mat-cell *matCellDef="let element"> {{element.friIsSelect}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friMinimumPrice">
-        <th mat-header-cell *matHeaderCellDef> friMinimumPrice </th>
-        <td mat-cell *matCellDef="let element"> {{element.friMinimumPrice}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friBookedUnitsTotal">
-        <th mat-header-cell *matHeaderCellDef> friBookedUnitsTotal </th>
-        <td mat-cell *matCellDef="let element"> {{element.friBookedUnitsTotal}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friBookedUnitsVarianceYoy">
-        <th mat-header-cell *matHeaderCellDef> friBookedUnitsVarianceYoy </th>
-        <td mat-cell *matCellDef="let element"> {{element.friBookedUnitsVarianceYoy}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friBookedUnitsYoyAbvVariance">
-        <th mat-header-cell *matHeaderCellDef> friBookedUnitsYoyAbvVariance </th>
-        <td mat-cell *matCellDef="let element"> {{element.friBookedUnitsYoyAbvVariance}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friCurrentUnitsAvailable">
-        <th mat-header-cell *matHeaderCellDef> friCurrentUnitsAvailable </th>
-        <td mat-cell *matCellDef="let element"> {{element.friCurrentUnitsAvailable}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friLastPriceChange">
-        <th mat-header-cell *matHeaderCellDef> friLastPriceChange </th>
-        <td mat-cell *matCellDef="let element"> {{element.friLastPriceChange}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friDaysSinceLastChange">
-        <th mat-header-cell *matHeaderCellDef> friDaysSinceLastChange </th>
-        <td mat-cell *matCellDef="let element"> {{element.friDaysSinceLastChange}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="friBookingsSinceLastChange">
-        <th mat-header-cell *matHeaderCellDef> friBookingsSinceLastChange </th>
-        <td mat-cell *matCellDef="let element"> {{element.friBookingsSinceLastChange}} </td>
-      </ng-container> -->
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="topHeadersNames"></tr>
+    <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: allColumns;"></tr>
   </table>
 </div>
+
 <div >
   <mat-paginator #paginator [(pageSize)]="requestFilters.count" [pageSizeOptions]="[3,5,10,25,50]"
   [showFirstLastButtons]="true" [length]="responseSearchData.itemsCount"

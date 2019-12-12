@@ -9,6 +9,8 @@ export class FiltersModel {
   unitGradeName: string[];
   accommName: string[];
   keyPeriodName: string[];
+  lessParkWeekOccupancy?: number;
+  greaterParkWeekOccupancy?: number;
 
   constructor() {
     this.holidayYear = [null];
@@ -21,5 +23,7 @@ export class FiltersModel {
     this.accommTypeName = [null];
     this.unitGradeName = [null];
     this.keyPeriodName = [null];
+    this.lessParkWeekOccupancy = null;
+    this.greaterParkWeekOccupancy = null;
   }
 }

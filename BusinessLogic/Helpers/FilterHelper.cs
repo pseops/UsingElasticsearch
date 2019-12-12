@@ -48,7 +48,8 @@ namespace BusinessLogic.Helpers
                           .Terms(t => t.Field(nameof(request.UnitGradeName).GetFilterName()).Terms(request.UnitGradeName)
                           ), m => m
                           .Terms(t => t.Field(nameof(request.KeyPeriodName).GetFilterName()).Terms(request.KeyPeriodName)
-                          )
+                          ), m => m
+                          .TermRange(t=>t.Field(f => f.ParkWeekOccupancy).GreaterThanOrEquals(request.GreaterParkWeekOccupancy).LessThanOrEquals(request.LessParkWeekOccupancy))
                       )
                     );
             return query;

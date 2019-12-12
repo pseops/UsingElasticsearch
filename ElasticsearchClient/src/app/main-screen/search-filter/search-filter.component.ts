@@ -8,9 +8,17 @@ import {
         } from '../../shared/models';
 import { NgModel } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
-import { TableConstants, FilterConstants } from 'src/app/shared/constants';
 import { MatSelectChange } from '@angular/material/select';
 import { FilterName } from 'src/app/shared/enums';
+import { TableView } from 'src/app/shared/views';
+import {
+          MAIN_COLUMNS,
+          MULTI_SELECT_FILTERS,
+          SELECT_FILTERS,
+          REPEATED_COLUMNS,
+          PREFIX_NAME,
+          TOP_HEADERS
+        } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-search-filter',
@@ -19,33 +27,73 @@ import { FilterName } from 'src/app/shared/enums';
 })
 export class SearchFilterComponent implements OnInit {
   responseSearchData: ResponseSearchMainScreenView;
-  displayedColumns: string[];
+  testColumns: string[];
+
   requestFilters: RequestFiltersMainScreenView;
   storedFilters: RequestSearchMainScreenView;
   responseDropDown: ResponseFiltersMainScreenView;
-  multiSelectFilters: string[];
-  selectFilters: string[];
+  lessThan: number;
+  greaterThan: number;
 
   constructor(
     private searchService: SearchService,
-    private tableConst: TableConstants,
-    private filterConst: FilterConstants
   ) {
 
     this.responseSearchData = new ResponseSearchMainScreenView();
     this.requestFilters = new RequestFiltersMainScreenView();
     this.storedFilters = new RequestSearchMainScreenView();
     this.responseDropDown = new ResponseFiltersMainScreenView();
-
-
-    this.multiSelectFilters = filterConst.multiSelectFilters;
-    this.selectFilters = filterConst.selectFilters;
-
-    this.displayedColumns = tableConst.COLUMNS;
   }
 
   ngOnInit() {
     this.search();
+  }
+
+  styleLastRepeated(column: string): boolean {
+    column = column.substring(3);
+    return column === REPEATED_COLUMNS[REPEATED_COLUMNS.length - 1].name;
+  }
+
+  styleLastSticky(column: string): boolean {
+    return column === MAIN_COLUMNS[MAIN_COLUMNS.length - 1].name;
+  }
+
+  get topHeaders(): Array<TableView> {
+    return TOP_HEADERS;
+  }
+
+  get topHeadersNames(): string[] {
+    return TOP_HEADERS.map(z => z.name);
+  }
+
+  get multiSelectFilters(): Array<TableView> {
+    return MULTI_SELECT_FILTERS;
+  }
+
+  get selectFilters(): Array<TableView> {
+    return SELECT_FILTERS;
+  }
+
+  get mainColumns(): Array<TableView> {
+    return MAIN_COLUMNS;
+  }
+
+  get allColumns(): string[] {
+    const columns = MAIN_COLUMNS.map(m => m.name);
+    return columns.concat(this.repeatedColumns.map(m => m.name));
+  }
+
+  get repeatedColumns(): Array<TableView> {
+    let temp = new Array<TableView>();
+
+    PREFIX_NAME.forEach((prefix) => {
+      REPEATED_COLUMNS.forEach((column) => {
+        const str = prefix + column.name;
+        const view: TableView = { name: str, viewName: column.viewName };
+        temp.push(view);
+      });
+    });
+    return temp;
   }
 
   search(): void {
