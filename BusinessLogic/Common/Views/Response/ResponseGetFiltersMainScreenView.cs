@@ -2,10 +2,10 @@
 
 namespace BusinessLogic.Common.Views.Response
 {
-    public class ResponseFiltersMainScreenView
+    public class ResponseGetFiltersMainScreenView
     {
         public List<string> Items { get; set; }
-        public ResponseFiltersMainScreenView()
+        public ResponseGetFiltersMainScreenView()
         {
             Items = new List<string>();
         }

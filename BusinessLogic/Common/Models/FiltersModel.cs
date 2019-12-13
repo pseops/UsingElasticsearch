@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BusinessLogic.Common.Models
 {
@@ -18,7 +16,5 @@ namespace BusinessLogic.Common.Models
         public IEnumerable<string> KeyPeriodName { get; set; }
         public string LessParkWeekOccupancy { get; set; }
         public string GreaterParkWeekOccupancy { get; set; }
-
-
     }
 }

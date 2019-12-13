@@ -1,11 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Entities
 {
     [Table("SKP_Web_App_Data")]
     public class WebAppData
-    {
+    {   
+        [Key]
         [Column("rec_id")]
         public int RecId { get; set; }
         [Column("row_id")]

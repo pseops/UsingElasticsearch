@@ -32,8 +32,6 @@ export class SearchFilterComponent implements OnInit {
   requestFilters: RequestFiltersMainScreenView;
   storedFilters: RequestSearchMainScreenView;
   responseDropDown: ResponseFiltersMainScreenView;
-  lessThan: number;
-  greaterThan: number;
 
   constructor(
     private searchService: SearchService,
@@ -145,5 +143,13 @@ export class SearchFilterComponent implements OnInit {
   firstLetterToUpper(name: string): string {
     name = name.charAt(0).toUpperCase() + name.substring(1);
     return name;
+  }
+
+  fromPercent(num: number): number | null {
+    return num !== null ? num / 100 : null;
+  }
+
+  toPercent(num: number): number | null {
+    return num !== null ? num * 100 : null;
   }
 }

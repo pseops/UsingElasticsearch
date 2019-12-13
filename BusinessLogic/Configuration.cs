@@ -2,6 +2,7 @@
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
@@ -13,21 +14,24 @@ namespace BusinessLogic
     {
         public static void Add(IServiceCollection services, IConfiguration configuration)
         {
+            DataAccess.Configuration.Add(services, configuration);
             AddDependecies(services);
             AddElasticOptions(services, configuration);
 
-            DataAccess.Configuration.Add(services, configuration);
+        }
+        public static void Use(IApplicationBuilder app)
+        {
+            DataAccess.Configuration.Use(app);
         }
 
-        public static void AddDependecies(IServiceCollection services)
+        private static void AddDependecies(IServiceCollection services)
         {
-            services.AddTransient<IWebAppDataService, WebAppDataService>();
             services.AddTransient<IElasticsearchService, ElasticsearchService>();
             services.AddTransient<IMainScreenService, MainScreenService>();
 
         }
 
-        public static void AddElasticOptions(IServiceCollection services, IConfiguration configuration)
+        private static void AddElasticOptions(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<ElasticOptions>(configuration.GetSection(nameof(ElasticOptions)));
 

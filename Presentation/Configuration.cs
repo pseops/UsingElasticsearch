@@ -1,20 +1,29 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DataAccess.AppContext;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace Presentation
 {
-    public class Configuration
+    public static class Configuration
     {
         public static void Add(IServiceCollection services, IConfiguration configuration)
         {
             BusinessLogic.Configuration.Add(services, configuration);
             AddSwagger(services);
             AddCors(services, configuration);
+            AddIdentityOptions(services);
         }
+        //public static void Use(IApplicationBuilder app)
+        //{
+        //    BusinessLogic.Configuration.Use(app);
+        //}
 
-        public static void AddSwagger(IServiceCollection services)
+        private static void AddSwagger(IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
@@ -22,7 +31,7 @@ namespace Presentation
             });
         }
 
-        public static void AddCors(IServiceCollection services, IConfiguration configuration)
+        private static void AddCors(IServiceCollection services, IConfiguration configuration)
         {
             IConfigurationSection corsOptions = configuration.GetSection("Cors");
 
@@ -44,5 +53,22 @@ namespace Presentation
             });
         }
 
+        private static void AddIdentityOptions(this IServiceCollection services)
+        {
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 2;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+            });
+        }
     }
 }

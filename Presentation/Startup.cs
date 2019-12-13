@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DataAccess.Initialization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,13 +18,12 @@ namespace Presentation
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             Configuration.Add(services, _configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -34,14 +34,22 @@ namespace Presentation
             {
                 app.UseHsts();
             }
+
+            //Configuration.Use(app);
+
+            dbInitializer.SeedData();
+
             app.UseSwagger();
+            
             app.UseCors("OriginPolicy");
 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "post API V1");
             });
+
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
     }

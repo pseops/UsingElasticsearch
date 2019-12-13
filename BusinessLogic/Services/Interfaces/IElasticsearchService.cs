@@ -1,5 +1,4 @@
-﻿using BusinessLogic.Common.Views;
-using Nest;
+﻿using Nest;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

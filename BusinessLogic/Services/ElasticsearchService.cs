@@ -28,7 +28,7 @@ namespace BusinessLogic.Services
         {
             var deleteResponse = await DeleteIndexAsync();
 
-            var count = 5000;
+            var count = 1000;
 
             var result = new List<BulkResponseItemBase>();
 
@@ -61,7 +61,6 @@ namespace BusinessLogic.Services
         private async Task<DeleteIndexResponse> DeleteIndexAsync()
         {
             var response = await _elasticClient.Indices.DeleteAsync(_elasticOptions.Index);
-            //var response = await _elasticClient.DeleteByQueryAsync<WebAppData>(x => x.Query(q => q.QueryString(s => s.Query("*"))));
             return response;
         }
 

@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using BusinessLogic.Common.Views;
 using BusinessLogic.Common.Views.Request;
 using BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +9,11 @@ namespace Presentation.Controllers
     [ApiController]
     public class DataController : ControllerBase
     {
-        private readonly IWebAppDataService _webAppDataService;
         private readonly IElasticsearchService _elasticsearchService;
         private readonly IMainScreenService _mainScreenService;
 
-        public DataController(IWebAppDataService webAppDataService, IElasticsearchService elasticsearchService, IMainScreenService mainScreenService)
+        public DataController(IElasticsearchService elasticsearchService, IMainScreenService mainScreenService)
         {
-            _webAppDataService = webAppDataService;
             _elasticsearchService = elasticsearchService;
             _mainScreenService = mainScreenService;
         }
@@ -35,10 +32,10 @@ namespace Presentation.Controllers
             return Ok(result);
         }
 
-        [HttpPost("getdropdownvalues")]
-        public async Task<IActionResult> GetDropDownValues([FromBody]RequestFiltersMainScreenView request)
+        [HttpPost("getfilters")]
+        public async Task<IActionResult> GetFilters([FromBody]RequestGetFiltersMainScreenView request)
         {            
-            var result = await _mainScreenService.GetDropDownValues(request);
+            var result = await _mainScreenService.GetFiltersAsync(request);
             return Ok(result);
         }
     }

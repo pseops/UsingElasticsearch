@@ -1,7 +1,13 @@
 ﻿using Dapper;
+using DataAccess.AppContext;
 using DataAccess.Entities;
+using DataAccess.Initialization;
 using DataAccess.Repositories;
 using DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,20 +16,49 @@ using System.Reflection;
 
 namespace DataAccess
 {
-    public class Configuration
+    public static class Configuration
     {
         public static void Add(IServiceCollection services, IConfiguration configuration)
         {
             AddDependecies(services);
+            AddContext(services, configuration);
+            EnsureMigrationOfContext(services);
             SQlMapper();
         }
-
-        public static void AddDependecies(IServiceCollection services)
+        public static void Use(IApplicationBuilder app)
         {
-            services.AddTransient<IWebAppDataRepository, WebAppDataRepository>();
         }
 
-        public static void SQlMapper()
+        private static void AddContext(IServiceCollection services, IConfiguration configuration)
+        {
+            string connection = configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<ApplicationContext>(options =>
+              options.UseSqlServer(connection), ServiceLifetime.Transient);
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+        }
+        private static void EnsureMigrationOfContext(IServiceCollection services)
+        {
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<ApplicationContext>();
+
+                if (!context.Database.EnsureCreated())
+                {
+                    context.Database.Migrate();
+                }
+            }
+        }
+        private static void AddDependecies(IServiceCollection services)
+        {
+            services.AddTransient<IWebAppDataRepository, WebAppDataRepository>();
+            services.AddScoped<DbInitializer>();
+        }
+        private static void SQlMapper()
         {
             SqlMapper.SetTypeMap(typeof(WebAppData), new TitleCaseMap<WebAppData>());
         }

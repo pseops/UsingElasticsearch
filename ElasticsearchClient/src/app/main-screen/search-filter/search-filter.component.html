@@ -5,9 +5,12 @@
   <div class="filter-container">
     <mat-card class="select-filters">
       <div class="multi-select-container">
-        <mat-form-field class="multi-select" *ngFor="let item of multiSelectFilters">
+        <mat-form-field class="multi-select"
+                        *ngFor="let item of multiSelectFilters">
           <mat-label>{{item.viewName}}</mat-label>
-          <mat-select [(ngModel)]="requestFilters.filters[firstLetterToLower(item.name)]" (opened)="getDropDownValues(firstLetterToLower(item.name))" multiple>
+          <mat-select [(ngModel)]="requestFilters.filters[firstLetterToLower(item.name)]"
+                      (opened)="getDropDownValues(firstLetterToLower(item.name))"
+                      multiple>
             <ng-container *ngFor="let dropDown of storedFilters.filters[firstLetterToLower(item.name)]">
               <mat-option [value]="dropDown">
                 {{dropDown}}
@@ -17,11 +20,13 @@
         </mat-form-field>
       </div>
       <div class="select-container">
-        <mat-form-field class="select" *ngFor="let item of selectFilters">
+        <mat-form-field class="select"
+                        *ngFor="let item of selectFilters">
           <mat-label>{{item.viewName}}</mat-label>
           <mat-select [(ngModel)]="requestFilters.filters[firstLetterToLower(item.name)]"
-          (selectionChange)="checkBoxEventHandler($event, firstLetterToLower(item.name))"
-          (opened)="getDropDownValues(firstLetterToLower(item.name))" multiple>
+                      (selectionChange)="checkBoxEventHandler($event, firstLetterToLower(item.name))"
+                      (opened)="getDropDownValues(firstLetterToLower(item.name))"
+                      multiple>
             <ng-container *ngFor="let dropDown of storedFilters.filters[firstLetterToLower(item.name)]">
               <mat-option [value]="dropDown">
                 {{dropDown}}
@@ -33,17 +38,24 @@
     </mat-card>
     <mat-card class="range-filters">
       <div class="range-container">
+        <div>Occupancy
+          <mat-divider></mat-divider>
+        </div>
         <mat-form-field>
-          <input matInput string-to-number
-          [ngModel]="requestFilters.filters.greaterParkWeekOccupancy * 100"
-          (ngModelChange)="requestFilters.filters.greaterParkWeekOccupancy = $event / 100"
-           placeholder="More Than" type="number" autocomplete="off"><span matSuffix>%</span>
+          <input matInput
+                 [ngModel]="toPercent(requestFilters.filters.greaterParkWeekOccupancy) | number "
+                 (ngModelChange)="requestFilters.filters.greaterParkWeekOccupancy = fromPercent($event)"
+                 placeholder="More Than"
+                 type="number"
+                 autocomplete="off"><span matSuffix>%</span>
         </mat-form-field>
         <mat-form-field>
-          <input matInput string-to-number
-          [value]="requestFilters.filters.lessParkWeekOccupancy * 100"
-          (input)="requestFilters.filters.lessParkWeekOccupancy = $event.target.value / 100"
-           placeholder="Less Than" type="number" autocomplete="off"><span matSuffix>%</span>{{requestFilters.filters.lessParkWeekOccupancy * 100}}
+          <input matInput
+                 [ngModel]="toPercent(requestFilters.filters.lessParkWeekOccupancy)"
+                 (ngModelChange)="requestFilters.filters.lessParkWeekOccupancy = fromPercent($event)"
+                 placeholder="Less Than"
+                 type="number"
+                 autocomplete="off"><span matSuffix>%</span>
         </mat-form-field>
       </div>
     </mat-card>
@@ -56,33 +68,65 @@
 
 <!----------------------------------------------------------------------------------------------------------------------------------------------->
 <div class="table-container">
-  <table mat-table [dataSource]="responseSearchData.items" matSort (matSortChange)="sortData($event)" matSortActive="ID"
-  matSortDisableClear matSortDirection="asc" >
+  <table mat-table
+         [dataSource]="responseSearchData.items"
+         matSort
+         (matSortChange)="sortData($event)"
+         matSortActive="ID"
+         matSortDisableClear
+         matSortDirection="asc">
 
-    <ng-container *ngFor="let name of mainColumns" matColumnDef={{name.name}} sticky="true">
-      <th [ngStyle]="styleLastSticky(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-header-cell mat-sort-header={{name.name}} disableClear *matHeaderCellDef>{{name.viewName}}</th>
-      <td [ngStyle]="styleLastSticky(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-cell *matCellDef="let element"> {{element[name.name]}} </td>
+    <ng-container *ngFor="let name of mainColumns"
+                  matColumnDef={{name.name}}
+                  sticky="true">
+      <th [ngStyle]="styleLastSticky(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}"
+          mat-header-cell
+          mat-sort-header={{name.name}}
+          disableClear
+          *matHeaderCellDef>{{name.viewName}}</th>
+      <td [ngStyle]="styleLastSticky(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}"
+          mat-cell
+          *matCellDef="let element"> {{element[name.name]}} </td>
     </ng-container>
 
-    <ng-container *ngFor="let name of repeatedColumns" matColumnDef={{name.name}} >
-      <th [ngStyle]="styleLastRepeated(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-header-cell mat-sort-header={{name.name}} disableClear *matHeaderCellDef>{{name.viewName}}</th>
-      <td [ngStyle]="styleLastRepeated(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}" mat-cell *matCellDef="let element"> {{element[name.name]}} </td>
+    <ng-container *ngFor="let name of repeatedColumns"
+                  matColumnDef={{name.name}}>
+      <th [ngStyle]="styleLastRepeated(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}"
+          mat-header-cell
+          mat-sort-header={{name.name}}
+          disableClear
+          *matHeaderCellDef>{{name.viewName}}</th>
+      <td [ngStyle]="styleLastRepeated(name.name) ? {'border-right': '1px solid', 'border-right-color': 'rgba(0,0,0,.12)'}:{}"
+          mat-cell
+          *matCellDef="let element"> {{element[name.name]}} </td>
     </ng-container>
 
 
-    <ng-container *ngFor="let name of topHeaders" matColumnDef={{name.name}} sticky={{name.sticky}}>
-      <th class="top-header" mat-header-cell *matHeaderCellDef attr.colspan={{name.count}}>{{name.name}}</th>
+    <ng-container *ngFor="let name of topHeaders"
+                  matColumnDef={{name.name}}
+                  sticky={{name.sticky}}>
+      <th class="top-header"
+          mat-header-cell
+          *matHeaderCellDef
+          attr.colspan={{name.count}}>{{name.name}}</th>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="topHeadersNames"></tr>
-    <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: allColumns;"></tr>
+    <tr mat-header-row
+        *matHeaderRowDef="topHeadersNames"></tr>
+    <tr mat-header-row
+        *matHeaderRowDef="allColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: allColumns;"></tr>
   </table>
 </div>
 
-<div >
-  <mat-paginator #paginator [(pageSize)]="requestFilters.count" [pageSizeOptions]="[3,5,10,25,50]"
-  [showFirstLastButtons]="true" [length]="responseSearchData.itemsCount"
-  [pageIndex]="requestFilters.from / requestFilters.count" (page)="handlePage($event)">
+<div>
+  <mat-paginator #paginator
+                 [(pageSize)]="requestFilters.count"
+                 [pageSizeOptions]="[3,5,10,25,50]"
+                 [showFirstLastButtons]="true"
+                 [length]="responseSearchData.itemsCount"
+                 [pageIndex]="requestFilters.from / requestFilters.count"
+                 (page)="handlePage($event)">
   </mat-paginator>
 </div>

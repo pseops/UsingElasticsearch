@@ -19,6 +19,6 @@ export class SearchService {
     }
 
     getDropDownValues(request: RequestFiltersMainScreenView): Observable<ResponseFiltersMainScreenView> {
-      return this.http.post<ResponseFiltersMainScreenView>(environment.apiUrl + 'data/getdropdownvalues', request);
+      return this.http.post<ResponseFiltersMainScreenView>(environment.apiUrl + 'data/getfilters', request);
     }
 }

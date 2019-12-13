@@ -76,3 +76,9 @@ table.mat-table th.mat-header-cell,td.mat-cell {
 .range-filters {
   width: 30%;
 }
+
+.range-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
