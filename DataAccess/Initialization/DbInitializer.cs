@@ -1,6 +1,7 @@
 ﻿using DataAccess.AppContext;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace DataAccess.Initialization
 {
@@ -17,13 +18,14 @@ namespace DataAccess.Initialization
             _roleManager = roleManager;
             _context = context;
         }
-        public void SeedData()
-        {
-            SeedRoles();
-            SeedAdmin();
+        public async Task SeedData()
+        {            
+            await SeedRoles();
+            await SeedAdmin();
+
         }
 
-        private async void SeedAdmin()
+        private async Task SeedAdmin()
         {
             if (await _userManager.FindByNameAsync("admin") != null)
             {
@@ -48,7 +50,7 @@ namespace DataAccess.Initialization
 
         }
 
-        public async void SeedRoles()
+        public async Task SeedRoles()
         {
             if ( !await _roleManager.RoleExistsAsync("admin"))
             {

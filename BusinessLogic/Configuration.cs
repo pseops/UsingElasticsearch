@@ -19,15 +19,13 @@ namespace BusinessLogic
             AddElasticOptions(services, configuration);
 
         }
-        public static void Use(IApplicationBuilder app)
-        {
-            DataAccess.Configuration.Use(app);
-        }
 
         private static void AddDependecies(IServiceCollection services)
         {
             services.AddTransient<IElasticsearchService, ElasticsearchService>();
             services.AddTransient<IMainScreenService, MainScreenService>();
+            services.AddTransient<ILogExceptionService, LogExceptionService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
 
         }
 

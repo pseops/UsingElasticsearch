@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Presentation.Middlewares;
 
 namespace Presentation
 {
@@ -35,9 +36,11 @@ namespace Presentation
                 app.UseHsts();
             }
 
-            //Configuration.Use(app);
+            app.UseAuthentication();
 
-            dbInitializer.SeedData();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
+            dbInitializer.SeedData().Wait();
 
             app.UseSwagger();
             

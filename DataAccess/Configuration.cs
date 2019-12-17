@@ -13,20 +13,18 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DataAccess
 {
     public static class Configuration
     {
-        public static void Add(IServiceCollection services, IConfiguration configuration)
+        public async static void Add(IServiceCollection services, IConfiguration configuration)
         {
             AddDependecies(services);
             AddContext(services, configuration);
-            EnsureMigrationOfContext(services);
+            await EnsureMigrationOfContext(services);
             SQlMapper();
-        }
-        public static void Use(IApplicationBuilder app)
-        {
         }
 
         private static void AddContext(IServiceCollection services, IConfiguration configuration)
@@ -34,13 +32,13 @@ namespace DataAccess
             string connection = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationContext>(options =>
-              options.UseSqlServer(connection), ServiceLifetime.Transient);
+              options.UseSqlServer(connection));
 
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
         }
-        private static void EnsureMigrationOfContext(IServiceCollection services)
+        private async static Task EnsureMigrationOfContext(IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -49,15 +47,19 @@ namespace DataAccess
 
                 if (!context.Database.EnsureCreated())
                 {
-                    context.Database.Migrate();
+                    await context.Database.MigrateAsync();
                 }
             }
         }
         private static void AddDependecies(IServiceCollection services)
         {
             services.AddTransient<IWebAppDataRepository, WebAppDataRepository>();
+            services.AddTransient<ILogExceptionRepository, LogExceptionRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+
             services.AddScoped<DbInitializer>();
         }
+
         private static void SQlMapper()
         {
             SqlMapper.SetTypeMap(typeof(WebAppData), new TitleCaseMap<WebAppData>());

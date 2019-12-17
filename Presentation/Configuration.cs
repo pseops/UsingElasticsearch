@@ -1,9 +1,8 @@
-﻿using DataAccess.AppContext;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Presentation.Common.Extensions;
+using Presentation.Helpers.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 
@@ -14,14 +13,17 @@ namespace Presentation
         public static void Add(IServiceCollection services, IConfiguration configuration)
         {
             BusinessLogic.Configuration.Add(services, configuration);
+            AddDependecies(services);
+            services.AddJwtAuthentication(configuration);
             AddSwagger(services);
             AddCors(services, configuration);
             AddIdentityOptions(services);
         }
-        //public static void Use(IApplicationBuilder app)
-        //{
-        //    BusinessLogic.Configuration.Use(app);
-        //}
+
+        private static void AddDependecies(IServiceCollection services)
+        {
+            services.AddTransient<IJwtHelper, JwtHelper>();
+        }
 
         private static void AddSwagger(IServiceCollection services)
         {
