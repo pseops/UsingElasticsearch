@@ -22,10 +22,10 @@ import {
 
 @Component({
   selector: 'app-search-filter',
-  templateUrl: './search-filter.component.html',
-  styleUrls: ['./search-filter.component.css']
+  templateUrl: './main-screen.component.html',
+  styleUrls: ['./main-screen.component.css']
 })
-export class SearchFilterComponent implements OnInit {
+export class MainScreenComponent implements OnInit {
   responseSearchData: ResponseSearchMainScreenView;
   testColumns: string[];
 

@@ -44,7 +44,8 @@ namespace Presentation.Middlewares
             {
                 code = (exception as ProjectException).StatusCode;
             }
-            var userId = context.User.Claims.ToList().Where(x=>x.Type == ClaimTypes.NameIdentifier).Select(s=>s.Value).FirstOrDefault();
+
+            var userId = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             _logExceptionService.Create(exception, context.Request.Path, userId);
 

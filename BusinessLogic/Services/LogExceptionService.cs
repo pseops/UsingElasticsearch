@@ -1,4 +1,6 @@
 ﻿using BusinessLogic.Services.Interfaces;
+using Common.Views.Request;
+using DataAccess.Common.Views.Response;
 using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using System;
@@ -24,6 +26,13 @@ namespace BusinessLogic.Services
             exceptionToInsert.UserId = userId;
 
             await _logExceptionRepository.CreateAsync(exceptionToInsert);
+        }
+
+        public async Task<ResponseGetLoggsView> GetLoggsAsync(RequestGetLoggsView loggsView)
+        {
+            var result = await _logExceptionRepository.GetLoggsAsync(loggsView);
+            
+            return result;
         }
     }
 }

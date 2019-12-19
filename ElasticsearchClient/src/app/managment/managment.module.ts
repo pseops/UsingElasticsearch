@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchFilterComponent } from './search-filter/search-filter.component';
+import { MainScreenComponent } from './main-screen/main-screen.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/modules/material/material.module';
-
-
+import { AdminScreenComponent } from './admin-screen/admin-screen.component';
+import { ManagmentRoutes } from './managment.routing';
 
 @NgModule({
   declarations: [
-    SearchFilterComponent,
+    MainScreenComponent,
+    AdminScreenComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ManagmentRoutes,
     MaterialModule
   ]
 })
-export class MainScreenModule { }
+export class ManagmentModule { }

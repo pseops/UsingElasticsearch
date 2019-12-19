@@ -32,12 +32,13 @@ namespace BusinessLogic.Services
                 throw new ProjectException(StatusCodes.Status500InternalServerError, "test message: user == null");
             }
 
-            //var passwordCheck = await _userRepository.PasswordCheckAsync(model.UserName, model.Password);
+            var passwordCheck = await _userRepository.PasswordCheckAsync(user.UserName, model.Password);
 
-            //if (!passwordCheck.Succeeded)
-            //{
-            //    throw new ProjectException(StatusCodes.Status500InternalServerError, "test message");
-            //}
+            if (!passwordCheck.Succeeded)
+            {
+                throw new ProjectException(StatusCodes.Status500InternalServerError, "test message");
+            }
+
             var userView = new ResponseGetUserItemView();
             userView.Email = user.Email;
             userView.Id = user.Id;

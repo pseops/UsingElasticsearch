@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BusinessLogic.Common.Views.Request;
 using BusinessLogic.Services.Interfaces;
+using Common.Views.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -11,11 +12,14 @@ namespace Presentation.Controllers
     {
         private readonly IElasticsearchService _elasticsearchService;
         private readonly IMainScreenService _mainScreenService;
+        private readonly ILogExceptionService _logExceptionService;
 
-        public DataController(IElasticsearchService elasticsearchService, IMainScreenService mainScreenService)
+
+        public DataController(IElasticsearchService elasticsearchService, IMainScreenService mainScreenService, ILogExceptionService logExceptionService)
         {
             _elasticsearchService = elasticsearchService;
             _mainScreenService = mainScreenService;
+            _logExceptionService = logExceptionService;
         }
 
         [HttpGet("index")]
@@ -36,6 +40,13 @@ namespace Presentation.Controllers
         public async Task<IActionResult> GetFilters([FromBody]RequestGetFiltersMainScreenView request)
         {            
             var result = await _mainScreenService.GetFiltersAsync(request);
+            return Ok(result);
+        }
+
+        [HttpPost("getloggs")]
+        public async Task<IActionResult> GetLoggs([FromBody]RequestGetLoggsView request)
+        {
+            var result = await _logExceptionService.GetLoggsAsync(request);
             return Ok(result);
         }
     }

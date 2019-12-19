@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './shared/modules/material/material.module';
-import { MainScreenModule } from './main-screen/main-screen.module';
+import { ManagmentModule } from './managment/managment.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { MainScreenModule } from './main-screen/main-screen.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    MainScreenModule
+    ManagmentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -43,5 +43,11 @@ namespace DataAccess.Repositories
         {
             await _signInManager.SignInAsync(user, false);
         }
+
+        public async Task<SignInResult> PasswordCheckAsync(string userName, string password)
+        {
+            var result = await _signInManager.PasswordSignInAsync(userName, password, false, false);
+            return result;
+        }
     }
 }

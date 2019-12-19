@@ -11,5 +11,7 @@ namespace DataAccess.Repositories.Interfaces
         Task<IdentityResult> CreateUserAsync(AppUser applicationUser, string password);
         Task SignInUserAsync(AppUser user);
         Task<AppUser> FindUserByEmailAsync(string email);
+        Task<SignInResult> PasswordCheckAsync(string userName, string password);
+
     }
 }
