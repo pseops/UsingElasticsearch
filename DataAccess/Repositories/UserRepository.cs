@@ -1,6 +1,8 @@
 ﻿using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
@@ -10,23 +12,26 @@ namespace DataAccess.Repositories
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public UserRepository(UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+        public UserRepository(
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(AppUser applicationUser, string password)
+        public async Task<bool> CreateUserAsync(AppUser applicationUser)
         {
-            var result = await _userManager.CreateAsync(applicationUser, password);
+            var result = await _userManager.CreateAsync(applicationUser, applicationUser.Password);
 
-            return result;
+            return result.Succeeded;
         }
 
-        public async Task<IdentityResult> UpdateUserAsync(AppUser applicationUser)
+        public async Task<bool> UpdateUserAsync(AppUser applicationUser)
         {
-            return await _userManager.UpdateAsync(applicationUser);
+            var result = await _userManager.UpdateAsync(applicationUser);
+            return result.Succeeded;
         }
 
         public async Task<AppUser> FindUserByIdAsync(string id)
@@ -44,10 +49,25 @@ namespace DataAccess.Repositories
             await _signInManager.SignInAsync(user, false);
         }
 
-        public async Task<SignInResult> PasswordCheckAsync(string userName, string password)
+        public async Task<List<string>> GetUserRole(AppUser user)
+        {
+            var roles = (await _userManager.GetRolesAsync(user)).ToList();
+
+            return roles;
+        }
+
+        public async Task<bool> AddToRole(AppUser user, string role)
+        {
+            var result = await _userManager.AddToRoleAsync(user, role);
+
+            return result.Succeeded;
+        }
+
+        public async Task<bool> PasswordCheckAsync(string userName, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, false, false);
-            return result;
+
+            return result.Succeeded;
         }
     }
 }

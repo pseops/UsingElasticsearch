@@ -27,7 +27,7 @@ namespace DataAccess.Initialization
 
         private async Task SeedAdmin()
         {
-            if (await _userManager.FindByNameAsync("admin") != null)
+            if (await _userManager.FindByNameAsync("Admin") != null)
             {
                 return;
             }
@@ -45,25 +45,25 @@ namespace DataAccess.Initialization
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "admin");
+                await _userManager.AddToRoleAsync(user, "Admin");
             }
 
         }
 
         public async Task SeedRoles()
         {
-            if ( !await _roleManager.RoleExistsAsync("admin"))
+            if ( !await _roleManager.RoleExistsAsync("Admin"))
             {
                 var role = new IdentityRole();
-                role.Name = "admin";
+                role.Name = "Admin";
                 await _roleManager.CreateAsync(role);
             }
 
 
-            if (!await _roleManager.RoleExistsAsync("user"))
+            if (!await _roleManager.RoleExistsAsync("User"))
             {
                 var role = new IdentityRole();
-                role.Name = "user";
+                role.Name = "User";
                 await _roleManager.CreateAsync(role);
             }
         }

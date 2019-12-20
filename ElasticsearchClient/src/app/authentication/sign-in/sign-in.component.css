@@ -1,0 +1,65 @@
+.login-form{
+  text-align: center;
+}
+@media only screen and (min-height: 700px){
+  .login-form{
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+}
+.btn{
+  background-color: rgb(133, 184, 133);
+  font-size: 15px;
+  width: 100%;
+}
+#sign-in-btn{
+width: 40%;
+}
+.first-btn {
+display: flex;
+justify-content: space-between;
+}
+
+.mat-form-field{
+  width: 250px;
+}
+.mat-hint{
+  color: rgb(223, 106, 106);
+}
+#user-icon{
+  font-size: 80px;
+  margin-right: 55px;
+}
+.cont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+#forgot-link {
+  text-align: right;
+  margin-bottom: 0px;
+  font-size: 15px;
+  height: 0px;
+}
+#alert{
+  width: 250px;
+  height: 40px;
+  padding-top: 15px;
+  font-size: 20px;
+  border: 2px double rgb(236, 187, 187);
+  background-color: rgb(245, 225, 225);
+}
+#alert span{
+  color: rgb(240, 48, 48);
+}
+form div{
+  margin: 20px 5px 5px 5px;
+}

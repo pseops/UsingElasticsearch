@@ -1,4 +1,6 @@
-﻿namespace BusinessLogic.Common.Views.Response.User
+﻿using static DataAccess.Entities.Enums.Enums;
+
+namespace BusinessLogic.Common.Views.Response.User
 {
     public class ResponseGetUserItemView
     {
@@ -9,6 +11,6 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public bool Status { get; set; } = true;
-        public string Role { get; set; }
+        public UserRole Role { get; set; }
     }
 }

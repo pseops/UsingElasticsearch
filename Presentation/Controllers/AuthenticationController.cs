@@ -20,19 +20,16 @@ namespace Presentation.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly IJwtHelper _jwtHelper;
         private readonly IConfiguration _configuration;
-        //private readonly JwtOptionsModel _jwtOptions;
 
         public AuthenticationController(
             IAuthenticationService authenticationService,
             IJwtHelper jwtHelper,
             IConfiguration configuration
-            //IOptions<JwtOptionsModel> jwtOptions
             )
         {
             _authenticationService = authenticationService;
             _jwtHelper = jwtHelper;
             _configuration = configuration;
-            //_jwtOptions = jwtOptions.Value;
         }
 
         [HttpPost("login")]
@@ -50,7 +47,6 @@ namespace Presentation.Controllers
 
             tokens = _jwtHelper.GenerateJwtToken(responseModel);
 
-            //throw new ProjectException(StatusCodes.Status500InternalServerError, "test");
             return Ok(tokens);
         }
 

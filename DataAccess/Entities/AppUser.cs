@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
+using static DataAccess.Entities.Enums.Enums;
 
 namespace DataAccess.Entities
 {
@@ -10,8 +11,9 @@ namespace DataAccess.Entities
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        public int Role { get; set; }
+        public UserRole Role { get; set; }
         [Required]
         public string Password { get; set; }
+        public bool IsRemoved { get; set; }
     }
 }

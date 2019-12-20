@@ -12,6 +12,8 @@ namespace DataAccess.Entities.Base
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("Id")]
         public long Id { get; set; }
+        [Column("IsRemoved")]
+        public bool IsRemoved { get; set; }
         [Column("CreationDate")]
         public DateTime CreationDate { get; set; }
         public BaseEntity()

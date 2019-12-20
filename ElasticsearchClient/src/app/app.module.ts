@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './shared/modules/material/material.module';
 import { ManagmentModule } from './managment/managment.module';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ManagmentModule } from './managment/managment.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    ManagmentModule
+    ManagmentModule,
+    AuthenticationModule,
+    StorageModule.forRoot({ IDBNoWrap: true })
   ],
   providers: [],
   bootstrap: [AppComponent]

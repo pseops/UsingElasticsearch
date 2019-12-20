@@ -33,7 +33,7 @@ namespace Presentation.Helpers.Interfaces
 
             accessClaims.AddRange(new List<Claim> {
                 new Claim(JwtRegisteredClaimNames.Sub, userModel.UserName),
-                //new Claim(ClaimTypes.Role, userModel.Role),
+                new Claim(ClaimTypes.Role, userModel.Role.ToString()),
             });
 
             var accessExpires = DateTime.Now.AddMinutes(Convert.ToDouble(_jwtOptions.JwtExpireMinutes));
@@ -87,6 +87,7 @@ namespace Presentation.Helpers.Interfaces
             {
                 return string.Empty;
             }
+
             var user = new ResponseGetUserItemView();
 
             return userId;

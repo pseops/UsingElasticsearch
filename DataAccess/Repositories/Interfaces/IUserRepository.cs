@@ -1,17 +1,21 @@
 ﻿using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataAccess.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IdentityResult> UpdateUserAsync(AppUser applicationUser);
+        Task<bool> UpdateUserAsync(AppUser applicationUser);
         Task<AppUser> FindUserByIdAsync(string id);
-        Task<IdentityResult> CreateUserAsync(AppUser applicationUser, string password);
+        Task<bool> CreateUserAsync(AppUser applicationUser);
         Task SignInUserAsync(AppUser user);
         Task<AppUser> FindUserByEmailAsync(string email);
-        Task<SignInResult> PasswordCheckAsync(string userName, string password);
+        Task<bool> PasswordCheckAsync(string userName, string password);
+        Task<List<string>> GetUserRole(AppUser user);
+        Task<bool> AddToRole(AppUser user, string role);
+
 
     }
 }

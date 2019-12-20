@@ -2,6 +2,7 @@
 using BusinessLogic.Common.Views.Request;
 using BusinessLogic.Common.Views.Response.User;
 using BusinessLogic.Services.Interfaces;
+using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
@@ -34,20 +35,34 @@ namespace BusinessLogic.Services
 
             var passwordCheck = await _userRepository.PasswordCheckAsync(user.UserName, model.Password);
 
-            if (!passwordCheck.Succeeded)
+            if (!passwordCheck)
             {
-                throw new ProjectException(StatusCodes.Status500InternalServerError, "test message");
+                throw new ProjectException(StatusCodes.Status500InternalServerError, "test message: wrong password");
             }
 
             var userView = new ResponseGetUserItemView();
             userView.Email = user.Email;
             userView.Id = user.Id;
             userView.UserName = user.UserName;
-            return userView;
+            userView.Role = user.Role;
 
-            throw new ProjectException(StatusCodes.Status500InternalServerError, "test message");
+            return userView;
         }
 
+        public async Task<bool> CreateUserAsync(ResponseGetUserItemView user)
+        {
+            var appUser = new AppUser();
+            appUser.Email = user.Email;
+            appUser.UserName = user.UserName;
+            appUser.FirstName = user.FirstName;
+            appUser.LastName = user.LastName;
+            appUser.Password = user.Password;
+            appUser.Role = user.Role;
+
+            var result = await _userRepository.CreateUserAsync(appUser);
+
+            return result;
+        }
 
     }
 }
