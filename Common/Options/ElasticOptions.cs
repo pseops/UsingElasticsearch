@@ -1,4 +1,4 @@
-﻿namespace BusinessLogic.Options
+﻿namespace Common.Options
 {
     public class ElasticOptions
     {

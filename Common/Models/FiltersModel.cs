@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BusinessLogic.Common.Models
+namespace Common.Models
 {
     public class FiltersModel
     {

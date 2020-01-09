@@ -1,11 +1,10 @@
-﻿using Common.Views.Request;
+﻿using Common.Views.Loggs.Request;
 using Dapper;
 using DataAccess.Common.Views.Response;
 using DataAccess.Entities;
 using DataAccess.Repositories.Base;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;

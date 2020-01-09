@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BusinessLogic.Common.Exceptions;
-using BusinessLogic.Common.Views.Request;
 using BusinessLogic.Services.Interfaces;
+using Common.Views.Authetication.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +41,7 @@ namespace Presentation.Controllers
 
             if (responseModel == null)
             {
-                throw new ProjectException(StatusCodes.Status500InternalServerError, "test message: responseModel == null");
+                throw new ProjectException(StatusCodes.Status500InternalServerError, "test message: responseModel == null (authentication/login)");
             }
 
             tokens = _jwtHelper.GenerateJwtToken(responseModel);

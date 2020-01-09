@@ -1,5 +1,5 @@
-﻿using BusinessLogic.Common.Views.Request;
-using BusinessLogic.Common.Views.Response.User;
+﻿using Common.Views.Authetication.Request;
+using Common.Views.Authetication.Response;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Services.Interfaces

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BusinessLogic.Common.Views.Response.User
+namespace Common.Views.Authetication.Response
 {
     public class ResponseGetUsersView
     {

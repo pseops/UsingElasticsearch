@@ -1,5 +1,5 @@
-﻿using BusinessLogic.Options;
-using BusinessLogic.Services.Interfaces;
+﻿using BusinessLogic.Services.Interfaces;
+using Common.Options;
 using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.Options;

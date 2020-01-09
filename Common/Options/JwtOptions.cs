@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Presentation.Common.Models
+﻿namespace Common.Options
 {
-    public class JwtOptionsModel
+    public class JwtOptions
     {
         public string JwtKey { get; set; }
         public string JwtIssuer { get; set; }

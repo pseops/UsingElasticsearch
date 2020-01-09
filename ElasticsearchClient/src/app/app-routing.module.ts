@@ -6,7 +6,7 @@ import { MainScreenComponent } from './managment/main-screen/main-screen.compone
 const routes: Routes = [
   {path: '', component: MainScreenComponent},
   { path: 'managment', loadChildren: () => import('src/app/managment/managment.module').then(m => m.ManagmentModule)},
-  { path: 'auth', loadChildren: () => import('src/app/authentication/authentication.module').then(m => m.AuthenticationModule)},
+  { path: 'authentication', loadChildren: () => import('src/app/authentication/authentication.module').then(m => m.AuthenticationModule)},
 ];
 
 @NgModule({

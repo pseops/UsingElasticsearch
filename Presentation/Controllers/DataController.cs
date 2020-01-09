@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using BusinessLogic.Common.Views.Request;
 using BusinessLogic.Services.Interfaces;
-using Common.Views.Request;
+using Common.Views.Loggs.Request;
+using Common.Views.MainScreen.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers

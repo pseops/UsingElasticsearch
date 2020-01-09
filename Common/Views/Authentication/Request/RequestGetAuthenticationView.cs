@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessLogic.Common.Views.Request
+namespace Common.Views.Authetication.Request
 {
     public class RequestGetAuthenticationView
     {

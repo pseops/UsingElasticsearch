@@ -1,7 +1,7 @@
-﻿using BusinessLogic.Common.Models;
-using static BusinessLogic.Enums.Enums;
+﻿using Common.Models;
+using static Common.Enums.Enums;
 
-namespace BusinessLogic.Common.Views.Request
+namespace Common.Views.MainScreen.Request
 {
     public class RequestGetFiltersMainScreenView
     {

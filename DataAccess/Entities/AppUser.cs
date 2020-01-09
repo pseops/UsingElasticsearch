@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
-using static DataAccess.Entities.Enums.Enums;
+using static Common.Enums.Enums;
 
 namespace DataAccess.Entities
 {

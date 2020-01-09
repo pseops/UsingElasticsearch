@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BusinessLogic.Common.Views.Response
+namespace Common.Views.MainScreen.Response
 {
     public class ResponseGetFiltersMainScreenView
     {

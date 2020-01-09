@@ -1,7 +1,7 @@
-﻿using BusinessLogic.Common.Views.Response.User;
+﻿using Common.Options;
+using Common.Views.Authetication.Response;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Presentation.Common.Models;
 using Presentation.Common.Response.Views;
 using System;
 using System.Collections.Generic;
@@ -14,9 +14,9 @@ namespace Presentation.Helpers.Interfaces
 {
     public class JwtHelper : IJwtHelper
     {
-        private readonly JwtOptionsModel _jwtOptions;
+        private readonly JwtOptions _jwtOptions;
 
-        public JwtHelper(IOptions<JwtOptionsModel> jwtOptions)
+        public JwtHelper(IOptions<JwtOptions> jwtOptions)
         {
             _jwtOptions = jwtOptions.Value;
         }

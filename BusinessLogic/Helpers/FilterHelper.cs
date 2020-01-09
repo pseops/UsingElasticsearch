@@ -1,7 +1,7 @@
 ﻿using DataAccess.Entities;
 using System;
 using Nest;
-using BusinessLogic.Common.Models;
+using Common.Models;
 
 namespace BusinessLogic.Helpers
 {

@@ -1,6 +1,6 @@
-﻿using static DataAccess.Entities.Enums.Enums;
+﻿using static Common.Enums.Enums;
 
-namespace BusinessLogic.Common.Views.Response.User
+namespace Common.Views.Authetication.Response
 {
     public class ResponseGetUserItemView
     {

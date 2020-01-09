@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Views.Response
+namespace Common.Views.Loggs.Response
 {
     public class ResponseGetLoggsView
     {

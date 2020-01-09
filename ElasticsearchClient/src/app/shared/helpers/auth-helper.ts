@@ -29,9 +29,9 @@ export class AuthHelper {
     this.userRole$ = new BehaviorSubject('');
   }
 
-  get userRole(): Observable<string>{
+  // get userRole(): Observable<string>{
 
-  }
+  // }
 
   signIn(loginModel: RequestGetAuthenticationView): void {
     this.authService.signIn(loginModel).subscribe(
@@ -58,7 +58,7 @@ export class AuthHelper {
           // this.localStorage.getItem('accessToken', { type: 'string' }).subscribe((token: string) => {
           //   { console.log(token); }
           // });
-          this.router.navigate(['/printingEdition/printingEditions']);
+          this.router.navigate(['/']);
       });
   }
 

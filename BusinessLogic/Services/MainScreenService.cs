@@ -1,9 +1,11 @@
-﻿using BusinessLogic.Common.Views.Request;
-using BusinessLogic.Common.Views.Response;
+﻿using AutoMapper;
 using BusinessLogic.Helpers;
 using BusinessLogic.Services.Interfaces;
+using Common.Views.MainScreen.Request;
+using Common.Views.MainScreen.Response;
 using DataAccess.Entities;
 using Nest;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +14,12 @@ namespace BusinessLogic.Services
     public class MainScreenService : IMainScreenService
     {
         private readonly IElasticClient _elasticClient;
+        private readonly IMapper _mapper;
 
-        public MainScreenService(IElasticClient elasticClient)
+        public MainScreenService(IElasticClient elasticClient, IMapper mapper)
         {
             _elasticClient = elasticClient;
+            _mapper = mapper;
         }
 
         public async Task<ResponseGetFiltersMainScreenView> GetFiltersAsync(RequestGetFiltersMainScreenView request)
@@ -57,7 +61,7 @@ namespace BusinessLogic.Services
             var count = searchResponse.Aggregations.ValueCount("valueCount").Value;
 
             var response = new ResponseSearchMainScreenView();
-            response.Items = webAppDatas;
+            response.Items = _mapper.Map<List<WebAppData>, List<ResponseSearchMainScreenViewItem>>(webAppDatas);
             response.ItemsCount = (int)count;
 
             return response;

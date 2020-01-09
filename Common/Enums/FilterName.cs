@@ -1,4 +1,4 @@
-﻿namespace BusinessLogic.Enums
+﻿namespace Common.Enums
 {
     public partial class Enums
     {

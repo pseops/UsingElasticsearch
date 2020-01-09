@@ -1,6 +1,6 @@
-﻿using BusinessLogic.Common.Models;
+﻿using Common.Models;
 
-namespace BusinessLogic.Common.Views.Request
+namespace Common.Views.MainScreen.Request
 {
     public class RequestSearchMainScreenView
     {

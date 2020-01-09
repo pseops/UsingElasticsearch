@@ -1,4 +1,4 @@
-﻿namespace Common.Views.Request
+﻿namespace Common.Views.Loggs.Request
 {
     public class RequestGetLoggsView
     {

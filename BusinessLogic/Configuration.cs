@@ -1,8 +1,9 @@
-﻿using BusinessLogic.Options;
+﻿using AutoMapper;
+using BusinessLogic.AutoMapper;
 using BusinessLogic.Services;
 using BusinessLogic.Services.Interfaces;
+using Common.Options;
 using DataAccess.Entities;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
@@ -17,7 +18,7 @@ namespace BusinessLogic
             DataAccess.Configuration.Add(services, configuration);
             AddDependecies(services);
             AddElasticOptions(services, configuration);
-
+            ConfigureAutomapper(services);
         }
 
         private static void AddDependecies(IServiceCollection services)
@@ -27,6 +28,16 @@ namespace BusinessLogic
             services.AddTransient<ILogExceptionService, LogExceptionService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
 
+        }
+
+        private static void ConfigureAutomapper(IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new WebAppDataMapping());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         private static void AddElasticOptions(IServiceCollection services, IConfiguration configuration)

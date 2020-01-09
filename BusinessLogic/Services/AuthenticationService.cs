@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Common.Exceptions;
-using BusinessLogic.Common.Views.Request;
-using BusinessLogic.Common.Views.Response.User;
 using BusinessLogic.Services.Interfaces;
+using Common.Views.Authetication.Request;
+using Common.Views.Authetication.Response;
 using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;

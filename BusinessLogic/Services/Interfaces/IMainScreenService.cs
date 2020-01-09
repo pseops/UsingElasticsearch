@@ -1,5 +1,5 @@
-﻿using BusinessLogic.Common.Views.Request;
-using BusinessLogic.Common.Views.Response;
+﻿using Common.Views.MainScreen.Request;
+using Common.Views.MainScreen.Response;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Services.Interfaces
