@@ -1,14 +1,17 @@
-﻿using Common.Options;
+﻿using BusinessLogic.Common.Exceptions;
+using Common.Options;
 using Common.Views.Authetication.Response;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Presentation.Common.Response.Views;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using static Common.Enums.Enums;
 
 namespace Presentation.Helpers.Interfaces
 {
@@ -93,5 +96,32 @@ namespace Presentation.Helpers.Interfaces
             return userId;
         }
 
+        public ResponseGenerateJwtAuthenticationView RefreshToken(ResponseGenerateJwtAuthenticationView model)
+        {
+            string encodedRefreshToken = model.RefreshToken;
+
+            JwtSecurityToken refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(encodedRefreshToken);
+
+            if (refreshToken.ValidFrom >= DateTime.UtcNow || refreshToken.ValidTo <= DateTime.UtcNow)
+            {
+                throw new ProjectException(StatusCodes.Status401Unauthorized, "refresh token inValid");
+            }
+
+            ResponseGetUserItemView user = GetUserFromClaims(refreshToken);
+
+            ResponseGenerateJwtAuthenticationView jwtResponse = GenerateJwtToken(user);
+
+            return jwtResponse;
+        }
+        private ResponseGetUserItemView GetUserFromClaims(JwtSecurityToken refreshToken)
+        {
+            ResponseGetUserItemView user = new ResponseGetUserItemView();
+
+            user.Id = refreshToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            user.Role = (UserRole)Enum.Parse(typeof(UserRole), refreshToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value);
+            user.UserName = refreshToken.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
+
+            return user;
+        }
     }
 }

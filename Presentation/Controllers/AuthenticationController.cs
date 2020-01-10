@@ -2,11 +2,11 @@
 using BusinessLogic.Common.Exceptions;
 using BusinessLogic.Services.Interfaces;
 using Common.Views.Authetication.Request;
+using Common.Views.Authetication.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Presentation.Common.Response.Views;
 using Presentation.Helpers.Interfaces;
 
 namespace Presentation.Controllers
@@ -47,6 +47,18 @@ namespace Presentation.Controllers
             tokens = _jwtHelper.GenerateJwtToken(responseModel);
 
             return Ok(tokens);
+        }
+
+        [HttpPost("refreshtoken")]
+        public async Task<IActionResult> RefreshToken([FromBody]ResponseGenerateJwtAuthenticationView credentials)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ResponseGenerateJwtAuthenticationView jwt = _jwtHelper.RefreshToken(credentials);
+            return Ok(jwt);
         }
 
         [HttpPost("test")]

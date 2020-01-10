@@ -2,12 +2,14 @@
 using BusinessLogic.Services.Interfaces;
 using Common.Views.Loggs.Request;
 using Common.Views.MainScreen.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DataController : ControllerBase
     {
         private readonly IElasticsearchService _elasticsearchService;

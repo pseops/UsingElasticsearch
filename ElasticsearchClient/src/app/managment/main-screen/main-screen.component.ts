@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../../core/services/search.service';
 import {
-          ResponseSearchMainScreenView,
-          RequestFiltersMainScreenView,
-          ResponseFiltersMainScreenView,
-          RequestSearchMainScreenView
-        } from '../../shared/models';
+  ResponseSearchMainScreenView,
+  RequestFiltersMainScreenView,
+  ResponseFiltersMainScreenView,
+  RequestSearchMainScreenView
+} from '../../shared/models';
 import { NgModel } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
 import { FilterName } from 'src/app/shared/enums';
 import { TableView } from 'src/app/shared/views';
 import {
-          MAIN_COLUMNS,
-          MULTI_SELECT_FILTERS,
-          SELECT_FILTERS,
-          REPEATED_COLUMNS,
-          PREFIX_NAME,
-          TOP_HEADERS
-        } from 'src/app/shared/constants';
+  MAIN_COLUMNS,
+  MULTI_SELECT_FILTERS,
+  SELECT_FILTERS,
+  REPEATED_COLUMNS,
+  PREFIX_NAME,
+  TOP_HEADERS
+} from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-search-filter',

@@ -1,5 +1,5 @@
 ﻿
-namespace Presentation.Common.Response.Views
+namespace Common.Views.Authetication.Response
 {
     public class ResponseGenerateJwtAuthenticationView
     {

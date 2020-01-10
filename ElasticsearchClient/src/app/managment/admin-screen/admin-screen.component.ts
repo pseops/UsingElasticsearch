@@ -22,7 +22,9 @@ export class AdminScreenComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.getLoggs();
+    setTimeout(() => {
+      this.getLoggs();
+    }, 300);
   }
 
   get displayedColumns(): TableView[] {

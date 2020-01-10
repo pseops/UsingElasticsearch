@@ -1,16 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainScreenComponent } from './managment/main-screen/main-screen.component';
-
 
 const routes: Routes = [
-  {path: '', component: MainScreenComponent},
-  { path: 'managment', loadChildren: () => import('src/app/managment/managment.module').then(m => m.ManagmentModule)},
-  { path: 'authentication', loadChildren: () => import('src/app/authentication/authentication.module').then(m => m.AuthenticationModule)},
+  {
+    path: '',
+    redirectTo: 'managment',
+    pathMatch: 'full'
+  },
+  {
+    path: 'authentication',
+    loadChildren: 'src/app/authentication/authentication.module#AuthenticationModule'
+  },
+  {
+    path: 'managment',
+    loadChildren: 'src/app/managment/managment.module#ManagmentModule'
+  },
+
+  { path: '**', redirectTo: 'managment' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
