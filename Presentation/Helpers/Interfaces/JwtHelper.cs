@@ -1,6 +1,10 @@
-﻿using BusinessLogic.Common.Exceptions;
+﻿using AutoMapper;
+using BusinessLogic.Common.Exceptions;
+using BusinessLogic.Services.Interfaces;
+using Common.Models;
 using Common.Options;
 using Common.Views.Authetication.Response;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +14,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using static Common.Enums.Enums;
 
 namespace Presentation.Helpers.Interfaces
@@ -18,34 +21,44 @@ namespace Presentation.Helpers.Interfaces
     public class JwtHelper : IJwtHelper
     {
         private readonly JwtOptions _jwtOptions;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IMapper _mapper;
 
-        public JwtHelper(IOptions<JwtOptions> jwtOptions)
+
+        public JwtHelper(IOptions<JwtOptions> jwtOptions, IAuthenticationService authenticationService, IMapper mapper)
         {
             _jwtOptions = jwtOptions.Value;
+            _authenticationService = authenticationService;
+            _mapper = mapper;
+            
         }
 
         public ResponseGenerateJwtAuthenticationView GenerateJwtToken(ResponseGetUserItemView userModel)
         {
 
-            var refreshClaims = new List<Claim> {
+            string permissionsClaim = GeneratePermissionsClaim(userModel.Permissions);
+
+            List<Claim> refreshClaims = new List<Claim> {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, userModel.Id),
             };
 
-            var accessClaims = refreshClaims;
+            List<Claim> accessClaims = refreshClaims;
 
             accessClaims.AddRange(new List<Claim> {
                 new Claim(JwtRegisteredClaimNames.Sub, userModel.UserName),
                 new Claim(ClaimTypes.Role, userModel.Role.ToString()),
+                new Claim(nameof(userModel.Permissions), permissionsClaim),
             });
 
-            var accessExpires = DateTime.Now.AddSeconds(Convert.ToDouble(_jwtOptions.JwtExpireMinutes));
 
-            var refreshExpires = DateTime.Now.AddDays(Convert.ToDouble(_jwtOptions.JwtExpireDays));
+            DateTime accessExpires = DateTime.Now.AddSeconds(Convert.ToDouble(_jwtOptions.JwtExpireMinutes));
 
-            var accesstToken = GenerateToken(accessClaims, accessExpires);
+            DateTime refreshExpires = DateTime.Now.AddDays(Convert.ToDouble(_jwtOptions.JwtExpireDays));
 
-            var refreshToken = GenerateToken(refreshClaims, refreshExpires);
+            JwtSecurityToken accesstToken = GenerateToken(accessClaims, accessExpires);
+
+            JwtSecurityToken refreshToken = GenerateToken(refreshClaims, refreshExpires);
 
             var jwtModel = new ResponseGenerateJwtAuthenticationView();
 
@@ -56,6 +69,20 @@ namespace Presentation.Helpers.Interfaces
             jwtModel.Email = userModel.Email;
 
             return jwtModel;
+        }
+
+        private string GeneratePermissionsClaim(List<UsersPermissionsModel> permissions)
+        {
+            string res = string.Empty;
+
+            foreach(var permission in permissions)
+            {
+                res += permission.Page.ToString()+":";
+                res += nameof(permission.CanEdit) + "=" + permission.CanEdit.ToString() + ",";
+                res += nameof(permission.CanView) + "=" + permission.CanView.ToString() + ";";
+            }
+
+            return res;
         }
 
         private JwtSecurityToken GenerateToken(List<Claim> claims, DateTime expire)
@@ -84,7 +111,7 @@ namespace Presentation.Helpers.Interfaces
 
             var refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(model.RefreshToken);
 
-            var userId = refreshToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            string userId = refreshToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             if (refreshToken.ValidTo <= DateTime.UtcNow)
             {
@@ -107,13 +134,15 @@ namespace Presentation.Helpers.Interfaces
                 throw new ProjectException(StatusCodes.Status401Unauthorized, "refresh token inValid");
             }
 
-            ResponseGetUserItemView user = GetUserFromClaims(refreshToken);  
-            
+            ResponseGetUserItemView user = GetUserFromClaims(refreshToken);
+            AppUser newUser = _authenticationService.GetUserWithPermissionsByIdAsync(user.Id).Result;
 
+            user = _mapper.Map(newUser, user);
             ResponseGenerateJwtAuthenticationView jwtResponse = GenerateJwtToken(user);
 
             return jwtResponse;
         }
+
         private ResponseGetUserItemView GetUserFromClaims(JwtSecurityToken refreshToken)
         {
             ResponseGetUserItemView user = new ResponseGetUserItemView();

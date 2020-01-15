@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Dapper.Contrib.Extensions;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static Common.Enums.Enums;
 
 namespace DataAccess.Entities
@@ -16,5 +19,8 @@ namespace DataAccess.Entities
         public string Password { get; set; }
         public bool IsRemoved { get; set; }
         public bool IsDisabled { get; set; } = false;
+        [Computed]
+        [NotMapped]
+        public List<UsersPermissions> Permissions { get; set; }
     }
 }

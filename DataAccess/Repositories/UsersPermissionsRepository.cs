@@ -25,7 +25,7 @@ namespace DataAccess.Repositories
 
             using (var connection = SqlConnection())
             {
-                IEnumerable<UsersPermissions> query = await connection.QueryAsync<UsersPermissions>(sql, userId);
+                IEnumerable<UsersPermissions> query = await connection.QueryAsync<UsersPermissions>(sql,  new { userId });
 
                 return query.ToList();
             }

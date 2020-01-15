@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Common.Models;
+using System.Collections.Generic;
 using static Common.Enums.Enums;
 
 namespace Common.Views.Authetication.Response
@@ -13,5 +14,6 @@ namespace Common.Views.Authetication.Response
         public string Password { get; set; }
         public bool Status { get; set; } = true;
         public UserRole Role { get; set; }
+        public List<UsersPermissionsModel> Permissions { get; set; }
     }
 }

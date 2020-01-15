@@ -30,7 +30,7 @@ export class AdminScreenComponent implements OnInit {
   }
 
   private setScreenType(): void {
-    this.managementHelper.setScreenType(Page.MainScreen);
+    this.managementHelper.setScreenType(Page.AdminScreen);
   }
 
   get displayedColumns(): TableView[] {
