@@ -2,7 +2,7 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class toLong3 : Migration
+    public partial class rename : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

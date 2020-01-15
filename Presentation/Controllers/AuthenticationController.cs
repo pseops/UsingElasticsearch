@@ -11,7 +11,8 @@ using Presentation.Helpers.Interfaces;
 
 namespace Presentation.Controllers
 {
-    [Authorize]
+
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
@@ -32,10 +33,9 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] RequestGetAuthenticationView model)
         {
-            var responseModel = await _authenticationService.Authenticate(model);
+            ResponseGetUserItemView responseModel = await _authenticationService.Authenticate(model);
 
             var tokens = new ResponseGenerateJwtAuthenticationView();
 

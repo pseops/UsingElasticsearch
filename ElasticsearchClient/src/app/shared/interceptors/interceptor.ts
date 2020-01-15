@@ -74,6 +74,7 @@
 //     return this.http.post<ResponseGenerateJwtTokensView>(environment.apiUrl + 'Authentication/refreshtoken', { refreshToken });
 //   }
 // }
+
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse, HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -94,8 +95,6 @@ export class Interceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    debugger;
     if (this.authHelper.getAccessToken()) {
       request = this.addToken(request, this.authHelper.getAccessToken());
     }

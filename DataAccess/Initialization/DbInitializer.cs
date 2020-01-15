@@ -1,6 +1,7 @@
 ﻿using DataAccess.AppContext;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Threading.Tasks;
 
 namespace DataAccess.Initialization

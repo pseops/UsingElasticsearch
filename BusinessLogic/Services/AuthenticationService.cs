@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Common.Exceptions;
+﻿using AutoMapper;
+using BusinessLogic.Common.Exceptions;
 using BusinessLogic.Services.Interfaces;
 using Common.Views.Authetication.Request;
 using Common.Views.Authetication.Response;
@@ -11,12 +12,13 @@ namespace BusinessLogic.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IUserRepository _userRepository;       
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public AuthenticationService(IUserRepository userRepository)
+        public AuthenticationService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-            
+            _mapper = mapper;            
         }
 
         public async Task<ResponseGetUserItemView> Authenticate(RequestGetAuthenticationView model)
@@ -39,25 +41,16 @@ namespace BusinessLogic.Services
             {
                 throw new ProjectException(StatusCodes.Status500InternalServerError, "test message: wrong password");
             }
+            await _userRepository.SignInUserAsync(user);
 
-            var userView = new ResponseGetUserItemView();
-            userView.Email = user.Email;
-            userView.Id = user.Id;
-            userView.UserName = user.UserName;
-            userView.Role = user.Role;
-
+            ResponseGetUserItemView userView = _mapper.Map<AppUser, ResponseGetUserItemView>(user);
             return userView;
         }
 
         public async Task<bool> CreateUserAsync(ResponseGetUserItemView user)
         {
-            var appUser = new AppUser();
-            appUser.Email = user.Email;
-            appUser.UserName = user.UserName;
-            appUser.FirstName = user.FirstName;
-            appUser.LastName = user.LastName;
-            appUser.Password = user.Password;
-            appUser.Role = user.Role;
+
+            AppUser appUser = _mapper.Map<ResponseGetUserItemView, AppUser>(user);
 
             var result = await _userRepository.CreateUserAsync(appUser);
 

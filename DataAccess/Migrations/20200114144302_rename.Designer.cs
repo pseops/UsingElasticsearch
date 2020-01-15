@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191220080559_roles")]
-    partial class roles
+    [Migration("20200114144302_rename")]
+    partial class rename
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,8 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired();
+
+                    b.Property<bool>("IsDisabled");
 
                     b.Property<bool>("IsRemoved");
 
@@ -116,6 +118,25 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LogExceptions");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.UsersPermissions", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("CanEdit");
+
+                    b.Property<bool>("CanView");
+
+                    b.Property<int>("Page");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsersPerpissions");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.WebAppData", b =>

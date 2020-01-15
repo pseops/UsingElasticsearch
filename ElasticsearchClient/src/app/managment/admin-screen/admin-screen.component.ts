@@ -3,6 +3,8 @@ import { LoggsService } from 'src/app/core/services/loggs.service';
 import { RequestGetLoggsView, ResponseGetLoggsView } from 'src/app/shared/models';
 import { TableView } from 'src/app/shared/views';
 import { LOGGS_COLUMNS } from 'src/app/shared/constants';
+import { ManagmentHelper } from 'src/app/shared/helpers/managment-helper';
+import { Page } from 'src/app/shared/enums';
 
 @Component({
   selector: 'app-admin-screen',
@@ -14,12 +16,14 @@ export class AdminScreenComponent implements OnInit {
   loggsData: ResponseGetLoggsView;
 
   constructor(
+    private managementHelper: ManagmentHelper,
     private loggsService: LoggsService,
   ) {
     this.filter = new RequestGetLoggsView();
     this.loggsData = new ResponseGetLoggsView();
 
-   }
+    this.setScreenType();
+  }
 
   ngOnInit() {
     setTimeout(() => {
@@ -27,9 +31,14 @@ export class AdminScreenComponent implements OnInit {
     }, 300);
   }
 
+  private setScreenType(): void {
+    this.managementHelper.setScreenType(Page.MainScreen);
+  }
+
   get displayedColumns(): TableView[] {
     return LOGGS_COLUMNS;
   }
+
   get columnsNames(): string[] {
     return LOGGS_COLUMNS.map(m => m.name);
   }
@@ -39,6 +48,7 @@ export class AdminScreenComponent implements OnInit {
       this.loggsData = data;
     });
   }
+
   handlePage(e: any): void {
     this.filter.pageNumber = e.pageIndex + 1;
     this.filter.pageSize = e.pageSize;

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191217143553_toLong3")]
-    partial class toLong3
+    [Migration("20200114144517_renamePermissions")]
+    partial class renamePermissions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,10 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired();
+
+                    b.Property<bool>("IsDisabled");
+
+                    b.Property<bool>("IsRemoved");
 
                     b.Property<string>("LastName")
                         .IsRequired();
@@ -93,6 +97,9 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnName("CreationDate");
 
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnName("IsRemoved");
+
                     b.Property<string>("Message")
                         .HasColumnName("Message");
 
@@ -105,9 +112,31 @@ namespace DataAccess.Migrations
                     b.Property<string>("StackTrace")
                         .HasColumnName("StackTrace");
 
+                    b.Property<string>("UserId")
+                        .HasColumnName("UserId");
+
                     b.HasKey("Id");
 
                     b.ToTable("LogExceptions");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.UsersPermissions", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("CanEdit");
+
+                    b.Property<bool>("CanView");
+
+                    b.Property<int>("Page");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsersPermissions");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.WebAppData", b =>

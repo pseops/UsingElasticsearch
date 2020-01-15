@@ -1,8 +1,6 @@
 ﻿using DataAccess.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace DataAccess.AppContext
 {
@@ -10,6 +8,8 @@ namespace DataAccess.AppContext
     {
         public DbSet<WebAppData> WebAppDatas { get; set; }
         public DbSet<LogException> LogExceptions { get; set; }
+        public DbSet<UsersPermissions> UsersPermissions { get; set; }
+
 
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)

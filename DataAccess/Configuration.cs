@@ -56,6 +56,7 @@ namespace DataAccess
             services.AddTransient<IWebAppDataRepository, WebAppDataRepository>();
             services.AddTransient<ILogExceptionRepository, LogExceptionRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUsersPermissionsRepository, UsersPermissionsRepository>();
 
             services.AddScoped<DbInitializer>();
         }

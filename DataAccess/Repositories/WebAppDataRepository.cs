@@ -30,11 +30,11 @@ namespace DataAccess.Repositories
 
         public async Task<IEnumerable<WebAppData>> GetAllAsync()
         {
-            var sql = $@"SELECT *  FROM {tableName}";
+            string sql = $@"SELECT *  FROM {tableName}";
 
-            using (var connection = SqlConnection())
+            using (SqlConnection connection = SqlConnection())
             {
-                var items = await connection.QueryAsync<WebAppData>(sql);
+                IEnumerable<WebAppData> items = await connection.QueryAsync<WebAppData>(sql);
 
                 return items;
             }
@@ -42,14 +42,14 @@ namespace DataAccess.Repositories
 
         public async Task<IEnumerable<WebAppData>> GetPartsRecords(int from, int count)
         {
-            var sql = $@"GetPartsRecords";
+            string sql = $@"GetPartsRecords";
 
             var watch = new Stopwatch();
 
-            using (var connection = SqlConnection())
+            using (SqlConnection connection = SqlConnection())
             {
                 watch.Start();
-                var items = await connection.QueryAsync<WebAppData>(
+                IEnumerable<WebAppData> items = await connection.QueryAsync<WebAppData>(
                     sql,
                     new { Skip = from, Take = count },
                     commandType: CommandType.StoredProcedure);

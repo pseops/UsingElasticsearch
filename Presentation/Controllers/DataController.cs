@@ -25,6 +25,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("index")]
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var result = await _elasticsearchService.IndexData();

@@ -15,5 +15,6 @@ namespace DataAccess.Entities
         [Required]
         public string Password { get; set; }
         public bool IsRemoved { get; set; }
+        public bool IsDisabled { get; set; } = false;
     }
 }

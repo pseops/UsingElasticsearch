@@ -5,6 +5,7 @@ using DataAccess.Entities;
 using DataAccess.Repositories.Base;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
@@ -23,7 +24,7 @@ namespace DataAccess.Repositories
 
         public async Task<ResponseGetLoggsView> GetLoggsAsync(RequestGetLoggsView loggsView)
         {
-            var sql = $@"SELECT *  FROM {tableName}
+            string sql = $@"SELECT *  FROM {tableName}
                         ORDER BY Id ASC
                         OFFSET(@PageNumber - 1) * @PageSize ROWS FETCH NEXT @PageSize ROWS ONLY; 
                         SELECT COUNT(*)  FROM {tableName}";
@@ -32,8 +33,8 @@ namespace DataAccess.Repositories
             using (var connection = SqlConnection())
             {
                 var query = await connection.QueryMultipleAsync(sql, loggsView);
-                var items = query.Read<LogException>();
-                var count = query.Read<int>().FirstOrDefault();
+                IEnumerable<LogException> items = query.Read<LogException>();
+                int count = query.Read<int>().FirstOrDefault();
                 var response = new ResponseGetLoggsView();
                 response.Items = items.ToList();
                 response.Count = count;

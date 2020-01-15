@@ -37,6 +37,8 @@ namespace DataAccess.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired();
 
+                    b.Property<bool>("IsDisabled");
+
                     b.Property<bool>("IsRemoved");
 
                     b.Property<string>("LastName")
@@ -114,6 +116,25 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LogExceptions");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.UsersPermissions", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("CanEdit");
+
+                    b.Property<bool>("CanView");
+
+                    b.Property<int>("Page");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsersPermissions");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.WebAppData", b =>

@@ -38,10 +38,10 @@ namespace BusinessLogic.Services
 
                 var response = await ElasticIndexDataAsync(data);
 
-                if (!response.IsValid)
-                {
-                    throw new Exception();
-                }
+                //if (!response.IsValid)
+                //{
+                //    throw new Exception();
+                //}
 
                 result.AddRange(response.ItemsWithErrors);
 

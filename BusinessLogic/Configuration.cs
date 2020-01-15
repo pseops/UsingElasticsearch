@@ -27,7 +27,7 @@ namespace BusinessLogic
             services.AddTransient<IMainScreenService, MainScreenService>();
             services.AddTransient<ILogExceptionService, LogExceptionService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
-
+            services.AddTransient<IAdminScreenService, AdminScreenService>();
         }
 
         private static void ConfigureAutomapper(IServiceCollection services)
@@ -35,6 +35,7 @@ namespace BusinessLogic
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new WebAppDataMapping());
+                mc.AddProfile(new UserMapping());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

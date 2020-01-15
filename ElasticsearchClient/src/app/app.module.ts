@@ -8,14 +8,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './shared/modules/material/material.module';
-import { ManagmentModule } from './managment/managment.module';
-import { AuthenticationModule } from './authentication/authentication.module';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { Interceptor } from './shared/interceptors/interceptor';
+import { NavagationComponent } from './shared/components/navagation/navagation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavagationComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,8 +26,6 @@ import { Interceptor } from './shared/interceptors/interceptor';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    ManagmentModule,
-    AuthenticationModule,
     StorageModule.forRoot({ IDBNoWrap: true })
   ],
   providers: [

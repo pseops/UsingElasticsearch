@@ -9,7 +9,7 @@ import {
 import { NgModel } from '@angular/forms';
 import { Sort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
-import { FilterName } from 'src/app/shared/enums';
+import { FilterName, Page } from 'src/app/shared/enums';
 import { TableView } from 'src/app/shared/views';
 import {
   MAIN_COLUMNS,
@@ -19,6 +19,7 @@ import {
   PREFIX_NAME,
   TOP_HEADERS
 } from 'src/app/shared/constants';
+import { ManagmentHelper } from 'src/app/shared/helpers/managment-helper';
 
 @Component({
   selector: 'app-search-filter',
@@ -35,16 +36,23 @@ export class MainScreenComponent implements OnInit {
 
   constructor(
     private searchService: SearchService,
+    private managmentHelper: ManagmentHelper
   ) {
 
     this.responseSearchData = new ResponseSearchMainScreenView();
     this.requestFilters = new RequestFiltersMainScreenView();
     this.storedFilters = new RequestSearchMainScreenView();
     this.responseDropDown = new ResponseFiltersMainScreenView();
+
+    this.setScreenType();
   }
 
   ngOnInit() {
     this.search();
+  }
+
+  private setScreenType(): void {
+    this.managmentHelper.setScreenType(Page.MainScreen);
   }
 
   styleLastRepeated(column: string): boolean {
