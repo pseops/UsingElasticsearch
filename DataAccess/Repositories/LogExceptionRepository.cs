@@ -1,6 +1,7 @@
 ﻿using Common.Views.Loggs.Request;
+using Common.Views.Loggs.Response;
 using Dapper;
-using DataAccess.Common.Views.Response;
+using DataAccess.Common.Models;
 using DataAccess.Entities;
 using DataAccess.Repositories.Base;
 using DataAccess.Repositories.Interfaces;
@@ -22,7 +23,7 @@ namespace DataAccess.Repositories
             tableName = typeof(LogException).GetCustomAttribute<TableAttribute>().Name;
         }
 
-        public async Task<ResponseGetLoggsView> GetLoggsAsync(RequestGetLoggsView loggsView)
+        public async Task<LoggExceptionModel> GetLoggsAsync(RequestGetLoggsView loggsView)
         {
             string sql = $@"SELECT *  FROM {tableName}
                         ORDER BY Id ASC
@@ -35,7 +36,7 @@ namespace DataAccess.Repositories
                 var query = await connection.QueryMultipleAsync(sql, loggsView);
                 IEnumerable<LogException> items = query.Read<LogException>();
                 int count = query.Read<int>().FirstOrDefault();
-                var response = new ResponseGetLoggsView();
+                var response = new LoggExceptionModel();
                 response.Items = items.ToList();
                 response.Count = count;
                 return response;

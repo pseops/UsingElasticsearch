@@ -46,6 +46,7 @@ namespace BusinessLogic.Services
             ResponseGetUserItemView userView = _mapper.Map<AppUser, ResponseGetUserItemView>(user);
             return userView;
         }
+        
 
         public async Task<bool> CreateUserAsync(ResponseGetUserItemView user)
         {

@@ -1,5 +1,5 @@
 ﻿using Common.Views.Loggs.Request;
-using DataAccess.Common.Views.Response;
+using Common.Views.Loggs.Response;
 using System;
 using System.Threading.Tasks;
 

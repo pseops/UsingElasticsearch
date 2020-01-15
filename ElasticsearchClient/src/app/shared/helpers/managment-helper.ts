@@ -6,7 +6,7 @@ import { Page } from '../enums';
   providedIn: 'root'
 })
 export class ManagmentHelper {
-  private screenTypeSubject = new BehaviorSubject<Page>(Page.MainScreen);
+  private screenTypeSubject = new BehaviorSubject<Page>(null);
   constructor() { }
 
   setScreenType(value: Page): void {

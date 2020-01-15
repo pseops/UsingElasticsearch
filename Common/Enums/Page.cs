@@ -1,4 +1,4 @@
-﻿namespace DataAccess.Entities.Enums
+﻿namespace Common.Enums
 {
     public partial class Enums
     {

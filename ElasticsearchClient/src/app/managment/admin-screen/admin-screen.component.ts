@@ -26,9 +26,7 @@ export class AdminScreenComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.getLoggs();
-    }, 300);
+    this.getLoggs();
   }
 
   private setScreenType(): void {

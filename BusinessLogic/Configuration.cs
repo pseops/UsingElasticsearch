@@ -36,6 +36,7 @@ namespace BusinessLogic
             {
                 mc.AddProfile(new WebAppDataMapping());
                 mc.AddProfile(new UserMapping());
+                mc.AddProfile(new LoggMapping());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

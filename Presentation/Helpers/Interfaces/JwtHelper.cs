@@ -39,7 +39,7 @@ namespace Presentation.Helpers.Interfaces
                 new Claim(ClaimTypes.Role, userModel.Role.ToString()),
             });
 
-            var accessExpires = DateTime.Now.AddMinutes(Convert.ToDouble(_jwtOptions.JwtExpireMinutes));
+            var accessExpires = DateTime.Now.AddSeconds(Convert.ToDouble(_jwtOptions.JwtExpireMinutes));
 
             var refreshExpires = DateTime.Now.AddDays(Convert.ToDouble(_jwtOptions.JwtExpireDays));
 
@@ -107,7 +107,8 @@ namespace Presentation.Helpers.Interfaces
                 throw new ProjectException(StatusCodes.Status401Unauthorized, "refresh token inValid");
             }
 
-            ResponseGetUserItemView user = GetUserFromClaims(refreshToken);
+            ResponseGetUserItemView user = GetUserFromClaims(refreshToken);  
+            
 
             ResponseGenerateJwtAuthenticationView jwtResponse = GenerateJwtToken(user);
 

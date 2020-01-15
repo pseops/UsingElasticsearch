@@ -119,6 +119,7 @@ export class Interceptor implements HttpInterceptor {
 
       return this.refresh().pipe(
         switchMap((token: any) => {
+          this.authHelper.setTokens(token);
           token = this.authHelper.getAccessToken();
           this.locked = false;
 

@@ -1,19 +1,23 @@
-﻿using BusinessLogic.Services.Interfaces;
+﻿using AutoMapper;
+using BusinessLogic.Services.Interfaces;
 using Common.Views.Loggs.Request;
-using DataAccess.Common.Views.Response;
+using Common.Views.Loggs.Response;
 using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
     public class LogExceptionService : ILogExceptionService
     {
+        private readonly IMapper _mapper;
         private readonly ILogExceptionRepository _logExceptionRepository;
-        public LogExceptionService(ILogExceptionRepository logExceptionRepository)
+        public LogExceptionService(ILogExceptionRepository logExceptionRepository, IMapper mapper)
         {
             _logExceptionRepository = logExceptionRepository;
+            _mapper = mapper;
         }
 
         public async Task Create(Exception exception, string url, string userId)
@@ -31,8 +35,10 @@ namespace BusinessLogic.Services
         public async Task<ResponseGetLoggsView> GetLoggsAsync(RequestGetLoggsView loggsView)
         {
             var result = await _logExceptionRepository.GetLoggsAsync(loggsView);
-            
-            return result;
+            var response = new ResponseGetLoggsView();
+            response.Items = _mapper.Map<List<LogException>, List<ResponseGetLoggsViewItem>>(result.Items);
+            response.Count = result.Count;
+            return response;
         }
     }
 }

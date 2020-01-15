@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // import { CookieService } from 'ngx-cookie-service';
 import * as jwt_decode from 'jwt-decode';
-//import { LocalStorage } from '@ngx-pwa/local-storage';
+// import { LocalStorage } from '@ngx-pwa/local-storage';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services';
 import { ResponseGenerateJwtTokensView, RequestGetAuthenticationView } from '../models';
@@ -28,7 +28,7 @@ export class AuthHelper {
 
   constructor(
     private authService: AuthService,
-    //private localStorage: LocalStorage,
+    // private localStorage: LocalStorage,
     private router: Router,
   ) {
     this.userRole$ = new BehaviorSubject('');
@@ -72,15 +72,7 @@ export class AuthHelper {
     this._currentUserData = data;
 
     let decode = jwt_decode(data.accessToken);
-    localStorage.setItem('userId', decode[userId]);
-    localStorage.setItem('userFirstName', data.firstName);
-    localStorage.setItem('userLastName', data.lastName);
-    localStorage.setItem('userEmail', data.email);
-    localStorage.setItem('userRole', decode[userRole]);
     this._currentUserData.role = decode[userRole];
-
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
   }
 
   private clearStorage(): void {
@@ -117,6 +109,15 @@ export class AuthHelper {
     return undefined;
   }
 
+  public setTokens(tokens: ResponseGenerateJwtTokensView): void {
+    if (this._currentUserData !== null) {
+      this._currentUserData.accessToken = tokens.accessToken;
+      this._currentUserData.refreshToken = tokens.refreshToken;
+
+      this.login(this._currentUserData);
+    }
+  }
+
   isAuthenticated(): boolean {
     // return new Promise((resolve) => {
     //   if (!this._currentUserData) {
@@ -140,12 +141,8 @@ export class AuthHelper {
   }
 
   getDecodedAccessToken(token: string): any {
-    try {
-      return jwt_decode(token);
-    }
-    catch (error) {
-      return null;
-    }
+
+    return jwt_decode(token);
   }
 
   getUserIdFromToken() {
@@ -159,24 +156,16 @@ export class AuthHelper {
   getUserNameFromToken() {
     const userName = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
     const token = this.getAccessToken();
-    try {
-      let tokenData = jwt_decode(token);
-      return tokenData[userName];
-    }
-    catch (error) {
-      return null;
-    }
+    let tokenData = jwt_decode(token);
+    return tokenData[userName];
+
   }
 
   getRoleFromToken(): string {
     const token = this.getAccessToken();
-    try {
-      let tokenData = jwt_decode(token);
-      return tokenData[userRole];
-    }
-    catch (error) {
-      return null;
-    }
+
+    let tokenData = jwt_decode(token);
+    return tokenData[userRole];
   }
 
 }

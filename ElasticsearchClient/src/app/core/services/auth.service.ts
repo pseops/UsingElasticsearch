@@ -17,4 +17,8 @@ export class AuthService {
     return this.http.post<ResponseGenerateJwtTokensView>(environment.apiUrl + 'authentication/login', request);
   }
 
+  refreshTokens(refreshToken: string): Observable<ResponseGenerateJwtTokensView> {
+    return this.http.post<ResponseGenerateJwtTokensView>(environment.apiUrl + 'Authentication/refreshtoken', { refreshToken });
+  }
+
 }

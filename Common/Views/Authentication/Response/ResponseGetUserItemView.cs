@@ -1,4 +1,5 @@
-﻿using static Common.Enums.Enums;
+﻿using System.Collections.Generic;
+using static Common.Enums.Enums;
 
 namespace Common.Views.Authetication.Response
 {

@@ -4,6 +4,6 @@ export const LOGGS_COLUMNS = [
   {name: 'request', viewName: 'Request'},
   {name: 'source', viewName: 'Source'},
   {name: 'message', viewName: 'Message'},
-  {name: 'stackTrace', viewName: 'Stack trace'},
+  //{name: 'stackTrace', viewName: 'Stack trace'},
   {name: 'userId', viewName: 'User id'},
 ];

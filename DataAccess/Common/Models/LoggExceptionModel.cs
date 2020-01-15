@@ -1,9 +1,9 @@
 ﻿using DataAccess.Entities;
 using System.Collections.Generic;
 
-namespace DataAccess.Common.Views.Response
+namespace DataAccess.Common.Models
 {
-    public class ResponseGetLoggsView
+    public class LoggExceptionModel
     {
         public List<LogException> Items { get; set; }
         public int Count { get; set; }
