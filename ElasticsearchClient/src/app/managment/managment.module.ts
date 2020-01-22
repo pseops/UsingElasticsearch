@@ -5,11 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/modules/material/material.module';
 import { AdminScreenComponent } from './admin-screen/admin-screen.component';
 import { ManagmentRoutes } from './managment.routing';
+import { LogScreenComponent } from './log-screen/log-screen.component';
 
 @NgModule({
   declarations: [
     MainScreenComponent,
     AdminScreenComponent,
+    LogScreenComponent,
   ],
   imports: [
     CommonModule,

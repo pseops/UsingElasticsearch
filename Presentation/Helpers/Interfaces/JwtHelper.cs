@@ -8,6 +8,8 @@ using DataAccess.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -35,7 +37,6 @@ namespace Presentation.Helpers.Interfaces
 
         public ResponseGenerateJwtAuthenticationView GenerateJwtToken(ResponseGetUserItemView userModel)
         {
-
             string permissionsClaim = GeneratePermissionsClaim(userModel.Permissions);
 
             List<Claim> refreshClaims = new List<Claim> {
@@ -61,7 +62,7 @@ namespace Presentation.Helpers.Interfaces
             JwtSecurityToken refreshToken = GenerateToken(refreshClaims, refreshExpires);
 
             var jwtModel = new ResponseGenerateJwtAuthenticationView();
-
+             
             jwtModel.AccessToken = new JwtSecurityTokenHandler().WriteToken(accesstToken);
             jwtModel.RefreshToken = new JwtSecurityTokenHandler().WriteToken(refreshToken);
             jwtModel.FirstName = userModel.FirstName;
@@ -73,16 +74,20 @@ namespace Presentation.Helpers.Interfaces
 
         private string GeneratePermissionsClaim(List<UsersPermissionsModel> permissions)
         {
-            string res = string.Empty;
-
-            foreach(var permission in permissions)
+            var contractResolver = new DefaultContractResolver
             {
-                res += permission.Page.ToString()+":";
-                res += nameof(permission.CanEdit) + "=" + permission.CanEdit.ToString() + ",";
-                res += nameof(permission.CanView) + "=" + permission.CanView.ToString() + ";";
-            }
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
 
-            return res;
+            var jsonSettings = new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver,
+                Formatting = Formatting.Indented
+            };
+
+            string permissionsClaim = JsonConvert.SerializeObject(permissions, jsonSettings);
+
+            return permissionsClaim;
         }
 
         private JwtSecurityToken GenerateToken(List<Claim> claims, DateTime expire)

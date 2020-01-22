@@ -4,11 +4,13 @@ import * as jwt_decode from 'jwt-decode';
 // import { LocalStorage } from '@ngx-pwa/local-storage';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services';
-import { ResponseGenerateJwtTokensView, RequestGetAuthenticationView } from '../models';
+import { ResponseGenerateJwtTokensView, RequestGetAuthenticationView, UsersPermissionsModel } from '../models';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
+import { Page } from '../enums';
 
 const userId = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier';
 const userRole = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+const permissions = 'Permissions';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +75,11 @@ export class AuthHelper {
 
     let decode = jwt_decode(data.accessToken);
     this._currentUserData.role = decode[userRole];
+    this._currentUserData.permissions = JSON.parse(decode[permissions]);
+  }
+
+  getPermissions(screen: Page): UsersPermissionsModel {
+    return this._currentUserData.permissions.find(data => data.page === screen);
   }
 
   private clearStorage(): void {

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogic.Common.Exceptions;
 using BusinessLogic.Services.Interfaces;
-using Common.Models;
 using Common.Views.Authetication.Request;
 using Common.Views.Authetication.Response;
 using DataAccess.Entities;
