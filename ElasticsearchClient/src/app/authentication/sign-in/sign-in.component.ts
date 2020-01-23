@@ -3,6 +3,7 @@ import { RequestGetAuthenticationView } from 'src/app/shared/models';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthHelper } from 'src/app/shared/helpers/auth-helper';
 import { ManagmentHelper } from 'src/app/shared/helpers/managment-helper';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -16,6 +17,7 @@ export class SignInComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public authHelper: AuthHelper,
+    private authService: AuthService,
     private managementHelper: ManagmentHelper
   ) {
     this.signInView = new RequestGetAuthenticationView();

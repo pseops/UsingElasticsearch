@@ -9,5 +9,41 @@
 </mat-expansion-panel>
 <!----------------------------------------------------------------------------------------------------------------------------------------------->
 <div class="table-container">
+  <table mat-table
+         [dataSource]="responseModel.items">
 
+    <ng-container *ngFor="let name of mainColumns"
+                  matColumnDef={{name.name}}>
+      <th mat-header-cell
+          *matHeaderCellDef>{{name.viewName}}</th>
+      <td mat-cell
+          *matCellDef="let element"> {{element[name.name]}} </td>
+    </ng-container>
+
+    <ng-container *ngFor="let name of screens"
+                  matColumnDef={{name}}>
+      <th mat-header-cell
+          *matHeaderCellDef>{{name}}</th>
+      <td mat-cell
+          *matCellDef="let element">
+        CanEdit: <mat-checkbox [(ngModel)]="getPermissions(name ,element.id).canEdit"></mat-checkbox>
+        CanView: <mat-checkbox [(ngModel)]="getPermissions(name ,element.id).canView"></mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container *ngFor="let name of actions"
+                  matColumnDef={{name}}>
+      <th mat-header-cell
+          *matHeaderCellDef>Actions</th>
+      <td mat-cell
+          *matCellDef="let element">
+        <i class="material-icons refresh"
+           (click)="update(element)">save</i>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row
+        *matHeaderRowDef="allColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: allColumns;"></tr>
+  </table>
 </div>

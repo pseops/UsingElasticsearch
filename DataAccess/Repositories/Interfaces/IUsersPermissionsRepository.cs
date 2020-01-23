@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repositories.Interfaces
 {
-    public interface IUsersPermissionsRepository: IBaseRepository<UsersPermissions>
+    public interface IUsersPermissionsRepository: IBaseRepository<UsersPermission>
     {
-        Task<List<UsersPermissions>> GetUserPermissionsAsync(string userId);
+        Task<List<UsersPermission>> GetUserPermissionsAsync(string userId);
     }
 }

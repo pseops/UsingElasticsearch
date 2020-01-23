@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class DataController : ControllerBase
@@ -24,7 +25,8 @@ namespace Presentation.Controllers
             _logExceptionService = logExceptionService;
         }
 
-        [HttpGet("index")]
+        //[HttpGet("index")]
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
@@ -32,21 +34,24 @@ namespace Presentation.Controllers
             return Ok(result);
         }
 
-        [HttpPost("search")]
+        //[HttpPost("search")]
+        [HttpPost]
         public async Task<IActionResult> Search([FromBody]RequestSearchMainScreenView filter)
         {
             var result = await _mainScreenService.SearchAsync(filter);
             return Ok(result);
         }
 
-        [HttpPost("getfilters")]
+        //[HttpPost("getfilters")]
+        [HttpPost]
         public async Task<IActionResult> GetFilters([FromBody]RequestGetFiltersMainScreenView request)
         {            
             var result = await _mainScreenService.GetFiltersAsync(request);
             return Ok(result);
         }
 
-        [HttpPost("getloggs")]
+        //[HttpPost("getloggs")]
+        [HttpPost]
         public async Task<IActionResult> GetLoggs([FromBody]RequestGetLoggsView request)
         {
             var result = await _logExceptionService.GetLoggsAsync(request);

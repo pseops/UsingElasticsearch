@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RequestGetAuthenticationView, ResponseGenerateJwtTokensView } from 'src/app/shared/models';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,11 +14,11 @@ export class AuthService {
   ) { }
 
   signIn(request: RequestGetAuthenticationView): Observable<ResponseGenerateJwtTokensView> {
-    return this.http.post<ResponseGenerateJwtTokensView>(environment.apiUrl + 'authentication/login', request);
+    return this.http.post<ResponseGenerateJwtTokensView>(environment.apiUrl + 'Authentication/Login', request);
   }
 
   refreshTokens(refreshToken: string): Observable<ResponseGenerateJwtTokensView> {
-    return this.http.post<ResponseGenerateJwtTokensView>(environment.apiUrl + 'Authentication/refreshtoken', { refreshToken });
+    return this.http.post<ResponseGenerateJwtTokensView>(environment.apiUrl + 'Authentication/RefreshToken', { refreshToken });
   }
 
 }

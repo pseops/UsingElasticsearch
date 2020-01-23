@@ -81,7 +81,7 @@ import { Injectable } from '@angular/core';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { AuthHelper } from '../helpers/auth-helper';
 import { ResponseGenerateJwtTokensView } from '../models';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

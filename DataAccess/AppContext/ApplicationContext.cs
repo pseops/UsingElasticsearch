@@ -8,7 +8,7 @@ namespace DataAccess.AppContext
     {
         public DbSet<WebAppData> WebAppDatas { get; set; }
         public DbSet<LogException> LogExceptions { get; set; }
-        public DbSet<UsersPermissions> UsersPermissions { get; set; }
+        public DbSet<UsersPermission> UsersPermissions { get; set; }
 
 
 

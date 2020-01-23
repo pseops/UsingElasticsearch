@@ -21,6 +21,6 @@ namespace DataAccess.Entities
         public bool IsDisabled { get; set; } = false;
         [Computed]
         [NotMapped]
-        public List<UsersPermissions> Permissions { get; set; }
+        public List<UsersPermission> Permissions { get; set; }
     }
 }

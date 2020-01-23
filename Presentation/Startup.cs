@@ -35,6 +35,7 @@ namespace Presentation
             {
                 app.UseHsts();
             }
+            app.UseCors("OriginPolicy");
 
             app.UseAuthentication();
 
@@ -42,9 +43,9 @@ namespace Presentation
 
             dbInitializer.SeedData().Wait();
 
-            app.UseSwagger();
-            
-            app.UseCors("OriginPolicy");
+            app.UseMvc();
+
+            app.UseSwagger();            
 
             app.UseSwaggerUI(c =>
             {
@@ -53,7 +54,6 @@ namespace Presentation
 
             app.UseHttpsRedirection();
 
-            app.UseMvc();
         }
     }
 }

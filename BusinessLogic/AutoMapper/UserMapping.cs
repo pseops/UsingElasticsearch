@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Models;
+using Common.Views.AdminScreen.Request;
 using Common.Views.Authetication.Response;
 using DataAccess.Entities;
 
@@ -11,7 +12,13 @@ namespace BusinessLogic.AutoMapper
         {
             CreateMap<AppUser, ResponseGetUserItemView>();
             CreateMap<ResponseGetUserItemView, AppUser>();
-            CreateMap<UsersPermissions, UsersPermissionsModel>();
+            CreateMap<UsersPermission, UsersPermissionsModel>();
+            CreateMap<UsersPermissionsModel, UsersPermission> ();
+            CreateMap<RequestCreateUserAdminScreenView, AppUser>();
+            CreateMap<AppUser, RequestCreateUserAdminScreenView>();
+            CreateMap<RequestUpdateUserAdminScreenView, AppUser>();
+            CreateMap<AppUser, RequestUpdateUserAdminScreenView>();
+
         }
     }
 }

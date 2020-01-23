@@ -54,7 +54,7 @@ namespace BusinessLogic.Services
 
         public async Task<AppUser> GetPermissionsForUserAsync(AppUser user)
         {
-            List<UsersPermissions> permissions = await _usersPermissionsRepository.GetUserPermissionsAsync(user.Id);
+            List<UsersPermission> permissions = await _usersPermissionsRepository.GetUserPermissionsAsync(user.Id);
 
             user.Permissions = permissions;
 
@@ -67,7 +67,7 @@ namespace BusinessLogic.Services
 
             ResponseGetUserItemView userView = _mapper.Map<AppUser, ResponseGetUserItemView>(user);
 
-            List<UsersPermissions> permissions = await _usersPermissionsRepository.GetUserPermissionsAsync(user.Id);
+            List<UsersPermission> permissions = await _usersPermissionsRepository.GetUserPermissionsAsync(user.Id);
 
             user.Permissions = permissions;
 

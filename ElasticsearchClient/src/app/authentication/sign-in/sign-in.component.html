@@ -1,32 +1,39 @@
 <div class="cont">
-  <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="loginForm"
+        class="login-form"
+        (ngSubmit)="onSubmit()">
     <h2>Sign-In</h2>
 
     <div>
-      <mat-form-field class="mat-form-field" appearance="outline">
+      <mat-form-field class="mat-form-field"
+                      appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Enter your email"  formControlName="email" [(ngModel)]="signInView.email">
+        <input matInput
+               placeholder="Enter your email"
+               formControlName="email"
+               [(ngModel)]="signInView.email">
         <mat-hint *ngIf="loginForm.controls['email'].hasError('required')">
           Email is required!
         </mat-hint>
       </mat-form-field>
     </div>
     <div>
-      <mat-form-field class="mat-form-field" appearance="outline">
+      <mat-form-field class="mat-form-field"
+                      appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput placeholder="Enter your password" type="password" formControlName="password" [(ngModel)]="signInView.password">
+        <input matInput
+               placeholder="Enter your password"
+               type="password"
+               formControlName="password"
+               [(ngModel)]="signInView.password">
         <mat-hint *ngIf="loginForm.controls['password'].hasError('required')">
-            Password is required!
+          Password is required!
         </mat-hint>
         <mat-hint *ngIf="loginForm.controls['password'].hasError('minlength')">
-            Password must be at least 5 characters!
+          Password must be at least 5 characters!
         </mat-hint>
       </mat-form-field>
     </div>
     <button type="submit" class="btn" id="sign-in-btn">Sign-In</button>
   </form>
 </div>
-
-
-
-

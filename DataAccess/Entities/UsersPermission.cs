@@ -4,7 +4,7 @@ using static Common.Enums.Enums;
 
 namespace DataAccess.Entities
 {
-    public class UsersPermissions
+    public class UsersPermission
     {
         [Key]
         public long Id { get; set; }

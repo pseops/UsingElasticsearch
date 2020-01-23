@@ -12,8 +12,9 @@ using Presentation.Helpers.Interfaces;
 namespace Presentation.Controllers
 {
 
-    [AllowAnonymous]
-    [Route("api/[controller]")]
+    //[AllowAnonymous]
+    [Route("[controller]/[action]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -32,7 +33,9 @@ namespace Presentation.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("login")]
+
+        //[HttpPost("Login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] RequestGetAuthenticationView model)
         {
             ResponseGetUserItemView responseModel = await _authenticationService.Authenticate(model);
@@ -49,7 +52,8 @@ namespace Presentation.Controllers
             return Ok(tokens);
         }
 
-        [HttpPost("refreshtoken")]
+        //[HttpPost("refreshtoken")]
+        [HttpPost]
         public async Task<IActionResult> RefreshToken([FromBody]ResponseGenerateJwtAuthenticationView credentials)
         {
             if (!ModelState.IsValid)
@@ -61,7 +65,8 @@ namespace Presentation.Controllers
             return Ok(jwt);
         }
 
-        [HttpPost("test")]
+        //[HttpPost("test")]
+        [HttpPost]
         public async Task<IActionResult> test()
         {
             throw new ProjectException(StatusCodes.Status500InternalServerError, "test");

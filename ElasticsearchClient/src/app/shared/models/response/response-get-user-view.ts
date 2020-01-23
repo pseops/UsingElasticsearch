@@ -1,4 +1,5 @@
 import { UserRole } from '../../enums';
+import { UsersPermissionsModel } from '..';
 
 export class ResponseGetUserView {
   items: ResponseGetUserItemView[];
@@ -16,4 +17,5 @@ export class ResponseGetUserItemView {
     password: string;
     status: boolean;
     role: UserRole;
+    permissions: UsersPermissionsModel[];
 }

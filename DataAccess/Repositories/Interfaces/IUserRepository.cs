@@ -1,5 +1,4 @@
 ﻿using DataAccess.Entities;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,7 +14,7 @@ namespace DataAccess.Repositories.Interfaces
         Task<bool> PasswordCheckAsync(string userName, string password);
         Task<List<string>> GetUserRole(AppUser user);
         Task<bool> AddToRole(AppUser user, string role);
-
+        Task<List<AppUser>> GetAll();
 
     }
 }

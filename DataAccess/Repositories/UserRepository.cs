@@ -1,6 +1,7 @@
 ﻿using DataAccess.Entities;
 using DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,10 +22,14 @@ namespace DataAccess.Repositories
             _signInManager = signInManager;
         }
 
+        public async Task<List<AppUser>> GetAll()
+        {
+            return await _userManager.Users.ToListAsync();
+        }
+
         public async Task<bool> CreateUserAsync(AppUser applicationUser)
         {
-            var result = await _userManager.CreateAsync(applicationUser, applicationUser.Password);
-
+            var result = await _userManager.CreateAsync(applicationUser, applicationUser.Password);           
             return result.Succeeded;
         }
 

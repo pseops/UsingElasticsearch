@@ -1,21 +1,24 @@
 .table-container {
   width: 100%;
   height: 650px;
-  overflow: auto;
+  & > table {
+    width: 100%;
+    td.mat-cell {
+      padding: 10px;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      min-width: 100px;
+    }
+    th.mat-header-cell {
+      font-size: 16px;
+      font-weight: 500;
+      color: aliceblue;
+      background-color: #1569ab;
+    }
+  }
+  i{
+    cursor: pointer;
+  }
 }
 
-.table {
-  width: 100%;
-}
 
-th.mat-header-cell {
-  font-size: 16px;
-  font-weight: 500;
-  color: aliceblue;
-  background-color: #1569ab;
-}
-
-table.mat-table th.mat-header-cell,
-td.mat-cell {
-  min-width: 100px;
-}
